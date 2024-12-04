@@ -1,9 +1,8 @@
 # Реалізація інформаційного та програмного забезпечення
 
-В рамках проекту розробляється: 
+В рамках проекту розробляється:
 
 ```sql
--- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -341,5 +340,345 @@ INSERT INTO `databaseLab5`.`MultiChoise` (`id`, `variants`, `Content_id`) VALUES
 INSERT INTO `databaseLab5`.`MultiChoise` (`id`, `variants`, `Content_id`) VALUES (2, '{\"1\":\"d\",\"2\":\"b\",\"3\":\"c\"}', 1);
 
 COMMIT;
-- RESTfull сервіс для управління даними
 
+```
+
+## REST API для управління даними
+
+### Підключення до бази даних MySql
+
+#### config/connections.js
+
+```javascript
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+export default pool;
+```
+
+### Налаштування сервера
+
+#### app.js
+
+```javascript
+import express from "express";
+import dotenv from "dotenv";
+
+import multiChoiceRoutes from "./routes/multiChoiceRoutes.js";
+import singleChoiceRoutes from "./routes/singleChoiceRoutes.js";
+
+import errorHandlingMiddleware from "./middleware/errorMiddleware.js";
+
+dotenv.config();
+
+const app = express();
+
+app.use(express.json());
+
+app.use("/multichoice", multiChoiceRoutes);
+app.use("/singlechoice", singleChoiceRoutes);
+
+app.use(errorHandlingMiddleware);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+```
+
+### Маршрутизація
+
+#### routes/multiChoiceRoutes.js
+
+```javascript
+import express from "express";
+import {
+  getMultiChoices,
+  getMultiChoiceById,
+  createMultiChoice,
+  updateMultiChoice,
+  deleteMultiChoice,
+} from "../controllers/multiChoiceController.js";
+
+const router = express.Router();
+
+router.get("/", getMultiChoices);
+router.get("/:id", getMultiChoiceById);
+router.post("/", createMultiChoice);
+router.put("/:id", updateMultiChoice);
+router.delete("/:id", deleteMultiChoice);
+
+export default router;
+```
+
+#### routes/singleChoiceRoutes.js
+
+```javascript
+import express from "express";
+import {
+  getSingleChoices,
+  getSingleChoiceById,
+  createSingleChoice,
+  updateSingleChoice,
+  deleteSingleChoice,
+} from "../controllers/singleChoiceController.js";
+
+const router = express.Router();
+
+router.get("/", getSingleChoices);
+router.get("/:id", getSingleChoiceById);
+router.post("/", createSingleChoice);
+router.put("/:id", updateSingleChoice);
+router.delete("/:id", deleteSingleChoice);
+
+export default router;
+```
+
+### Контролери
+
+#### controllers/multiChoiceController.js
+
+```javascript
+import pool from "../config/connection.js";
+import QUERIES from "../queries/multiChoiceQueries.js";
+import sendResponse from "../utils/sendResponse.js";
+import errorFactory from "../utils/errorFactory.js";
+
+const { GET_ALL, GET_BY_ID, CREATE, UPDATE, DELETE } = QUERIES;
+
+export const getMultiChoices = async (req, res, next) => {
+  try {
+    const [results] = await pool.execute(GET_ALL);
+    sendResponse(res, 200, results);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const getMultiChoiceById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const [results] = await pool.execute(GET_BY_ID, [id]);
+    if (results.length === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200, results[0]);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const createMultiChoice = async (req, res, next) => {
+  const { variants, content_id } = req.body;
+  if (!variants || !content_id) return next(errorFactory.missingFields());
+  try {
+    await pool.execute(CREATE, [JSON.stringify(variants), content_id]);
+    sendResponse(res, 201);
+  } catch (err) {
+    next(errorFactory.createError(err.message));
+  }
+};
+
+export const updateMultiChoice = async (req, res, next) => {
+  const { id } = req.params;
+  const { variants, content_id } = req.body;
+  if (!variants || !content_id) return next(errorFactory.missingFields());
+  try {
+    const [result] = await pool.execute(UPDATE, [
+      JSON.stringify(variants),
+      content_id,
+      id,
+    ]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.updateError(err.message));
+  }
+};
+
+export const deleteMultiChoice = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.execute(DELETE, [id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.deleteError(err.message));
+  }
+};
+```
+
+#### controllers/singleChoiceController.js
+
+```javascript
+import pool from "../config/connection.js";
+import QUERIES from "../queries/singleChoiceQueries.js";
+import sendResponse from "../utils/sendResponse.js";
+import errorFactory from "../utils/errorFactory.js";
+
+const { GET_ALL, GET_BY_ID, CREATE, UPDATE, DELETE } = QUERIES;
+
+export const getSingleChoices = async (req, res, next) => {
+  try {
+    const [results] = await pool.execute(GET_ALL);
+    sendResponse(res, 200, results);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const getSingleChoiceById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const [results] = await pool.execute(GET_BY_ID, [id]);
+    if (results.length === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200, results[0]);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const createSingleChoice = async (req, res, next) => {
+  const { variant, content_id } = req.body;
+  if (!variant || !content_id) return next(errorFactory.missingFields());
+  try {
+    await pool.execute(CREATE, [variant, content_id]);
+    sendResponse(res, 201);
+  } catch (err) {
+    next(errorFactory.createError(err.message));
+  }
+};
+
+export const updateSingleChoice = async (req, res, next) => {
+  const { id } = req.params;
+  const { variant, content_id } = req.body;
+  if (!variant || !content_id) return next(errorFactory.missingFields());
+  try {
+    const [result] = await pool.execute(UPDATE, [variant, content_id, id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.updateError(err.message));
+  }
+};
+
+export const deleteSingleChoice = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.execute(DELETE, [id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.deleteError(err.message));
+  }
+};
+```
+
+### SQL-запити
+
+#### queries/multiChoiceQueries.js
+
+```javascript
+const QUERIES = {
+  GET_ALL: "SELECT * FROM MultiChoise",
+  GET_BY_ID: "SELECT * FROM MultiChoise WHERE id = ?",
+  CREATE: "INSERT INTO MultiChoise (variants, content_id) VALUES (?, ?)",
+  UPDATE: "UPDATE MultiChoise SET variants = ?, content_id = ? WHERE id = ?",
+  DELETE: "DELETE FROM MultiChoise WHERE id = ?",
+};
+
+export default QUERIES;
+```
+
+#### queries/singleChoiceQueries.js
+
+```javascript
+const QUERIES = {
+  GET_ALL: "SELECT * FROM SingleChoise",
+  GET_BY_ID: "SELECT * FROM SingleChoise WHERE id = ?",
+  CREATE: "INSERT INTO SingleChoise (variant, content_id) VALUES (?, ?)",
+  UPDATE: "UPDATE SingleChoise SET variant = ?, content_id = ? WHERE id = ?",
+  DELETE: "DELETE FROM SingleChoise WHERE id = ?",
+};
+
+export default QUERIES;
+```
+
+### Відправка відповіді
+
+#### utils/sendResponse.js
+
+```javascript
+const sendResponse = (res, statusCode, data = null) => {
+  const response = { message: "Success" };
+  if (data !== null) {
+    response.data = data;
+  }
+  res.status(statusCode).json(response);
+};
+
+export default sendResponse;
+```
+
+### Обробка помилок
+
+#### middleware/errorMiddleware.js
+
+```javascript
+import HTTP_STATUS_CODES from "../utils/statusCodes.js";
+
+const errorHandlingMiddleware = (err, req, res, next) => {
+  const statusCode = err.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR;
+  res.status(statusCode).json({
+    error: err.message || "Internal Server Error",
+    details: err.details || null,
+  });
+};
+
+export default errorHandlingMiddleware;
+```
+
+#### utils/errorFactory.js
+
+```javascript
+const formError = (message, statusCode, details = null) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  error.details = details;
+  return error;
+};
+
+const errorFactory = {
+  missingFields: () => formError("Missing fields", 400),
+  notFound: () => formError("Resource not found", 404),
+  createError: (details) => formError("Create error", 500, details),
+  getError: (details) => formError("Get error", 500, details),
+  updateError: (details) => formError("Update error", 500, details),
+  deleteError: (details) => formError("Delete error", 500, details),
+};
+
+export default errorFactory;
+```
+
+### Коди статусів HTTP
+
+#### utils/statusCode.js
+
+```javascript
+const HTTP_STATUS_CODES = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+export default HTTP_STATUS_CODES;
+```
