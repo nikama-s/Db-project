@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Запити зацікавлених осіб - Організація та управління опитуваннями для експертів</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Організація та управління опитуваннями для експертів</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Запити-зацікавлених-осіб"><a class="header" href="#Запити-зацікавлених-осіб">Запити зацікавлених осіб</a></h1>
+<h2 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h2>
+<p>Документ "Запити зацікавлених осіб" є невід'ємною частиною курсової роботи проєкту "Froggy" і містить опис вимог, що висуваються до системи з боку різних зацікавлених осіб. Основною метою документа є формалізація вимог, що забезпечить коректну розробку та впровадження інформаційної системи. Розділи документа охоплюють мету, контекст, основні визначення, а також специфікації сценаріїв, що описують взаємодію користувачів із системою.</p>
+<h3 id="Мета"><a class="header" href="#Мета">Мета</a></h3>
+<p>Основною метою цієї сукупності вимог є створення та впровадження інформаційної системи "Froggy," яка дозволить адміністраторам створювати опитувальні форми, поширювати їх серед користувачів із доступом і зберігати інформацію про осіб, які пройшли опитування. Система також включає функції реєстрації користувачів і перегляду результатів опитувань.</p>
+<h3 id="Контекст"><a class="header" href="#Контекст">Контекст</a></h3>
+<p>Цей документ пов'язаний із загальним проєктом розробки інформаційної системи "Froggy" та детально описує вимоги до її функціональності. Він впливає на всі аспекти розробки, від початкового проектування до впровадження, і є основою для взаємодії між замовниками та розробниками. Основною метою системи є забезпечення зручного інструменту для створення й управління опитуваннями, а також збереження інформації про користувачів.</p>
+<h3 id="Основні-визначення-та-скорочення"><a class="header" href="#Основні-визначення-та-скорочення">Основні визначення та скорочення</a></h3>
+<p>Запити зацікавлених осіб — це вимоги, які висувають різні сторони проєкту: замовники, користувачі, адміністратори й розробники. Кожен із них має свої очікування щодо функцій системи Froggy.</p>
+<p>Froggy — це інформаційна система для створення опитувальних форм, збору та обробки даних.</p>
+<p>Інформаційна система забезпечує ефективну організацію збору, зберігання та обробки даних.</p>
+<p>Опитувальні форми дозволяють адміністраторам створювати опитування для збору інформації від користувачів.</p>
+<p>Користувачі реєструються в системі для участі в опитуваннях і надання відповідей.</p>
+<p>Реєстрація — процес створення облікового запису, необхідного для доступу до системи.</p>
+<p>Перегляд результатів опитувань дає можливість адміністраторам аналізувати зібрані дані.</p>
+<p>Замовники — організації або особи, що замовляють розробку системи, визначають її функціональні вимоги.</p>
+<p>Розробники відповідають за технічну реалізацію та забезпечення відповідності вимогам замовників.</p>
+<p>FURPS — це акронім, що представляє модель для класифікації атрибутів якості програмного забезпечення (функціональні та нефункціональні вимоги).</p>
+<h3 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h3>
+<p><a href="">Запити зацікавлених осіб</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Information_system">Інформаційна система</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Questionnaire">Опитувальна форма</a></p>
+<p><a href="https://en.wikipedia.org/wiki/User_(telecommunications)">Користувач</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Account_creation">Реєстрація</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Client_(business)">Замовники</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Software_development#Workers">Розробники</a></p>
+<p><a href="https://en.wikipedia.org/wiki/FURPS">FURPS</a></p>
+<h2 id="Короткий-зміст"><a class="header" href="#Короткий-зміст">Короткий зміст</a></h2>
+<p><em>Froggy</em> — це інформаційна система, яка надає адміністраторам можливість створювати, поширювати та управляти опитуваннями, а також зберігати дані респондентів. Система призначена для легкого використання як адміністраторами, так і користувачами. Адміністратори можуть створювати форми з різними типами запитань, поширювати опитування за унікальними посиланнями та отримувати детальні результати з можливістю аналізу. Froggy забезпечує гнучкість і зручність для широкого кола користувачів, зберігаючи високі стандарти безпеки та продуктивності.</p>
+<h2 id="Характеристика-ділових-процесів"><a class="header" href="#Характеристика-ділових-процесів">Характеристика ділових процесів</a></h2>
+<h3 id="Додаткові-опції-для-підготовки-користувача-до-роботи-з-інтерфейсом-системи"><a class="header" href="#Додаткові-опції-для-підготовки-користувача-до-роботи-з-інтерфейсом-системи">Додаткові опції для підготовки користувача до роботи з інтерфейсом системи</a></h3>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>registerUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Реєстрація користувача</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User не має облікового запису <br> - User має доступ до інтерфейсу реєстрації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно зареєстрований у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неповні або некоректні дані <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач уже зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс реєстрації. <br> 2. Вводить необхідну інформацію (ім'я, прізвище, email, пароль). <br> 3. Підтверджує пароль. <br> 4. Приймає умови використання системи. <br> 5. Натискає кнопку реєстрації. <br> 6. Система надсилає підтвердження на email User. <br> 7. User підтверджує реєстрацію через email.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>loginUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Логін користувача - вхід у систему</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User знає свої облікові дані (email та пароль)</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно увійшов у систему</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильні облікові дані <br> ⚠️ Користувач забув пароль <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач не зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс входу в систему. <br> 2. Вводить email та пароль. <br> 3. Натискає кнопку "Увійти". <br> 4. Система перевіряє облікові дані. <br> 5. Якщо дані коректні, User отримує доступ до свого облікового запису.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editUserProfile</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування особистих даних</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User увійшов у свій акаунт <br> - User знаходиться на сторінці профілю</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Особисті дані користувача успішно оновлені</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильний формат облікових даних <br> ⚠️ Проблеми із сервером <br> ⚠️ Дані не змінені</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває сторінку профілю. <br> 2. Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів). <br> 3. Натискає кнопку збереження. <br> 4. Система перевіряє дані та зберігає зміни.</td></tr>
+</tbody></table>
+</div>
+<h3 id="Функціональні-опції-інтерфейсу-програми"><a class="header" href="#Функціональні-опції-інтерфейсу-програми">Функціональні опції інтерфейсу програми</a></h3>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>createForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Створення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- Admin має обліковий запис <br> - Admin має доступ до інтерфейсу для створення форм</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Нова форма створена та збережена у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Помилки збереження <br> ⚠️ Неповні дані <br> ⚠️ Проблеми із сервером</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin створює форми для User. <br> 2. Відкриває інтерфейс для створення нової форми. <br> 3. Вводить назву форми, опис. <br> 4. Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо). <br> 5. Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори). <br> 6. Зберігає форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування існуючої форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Створена форма, що потребує змін</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Зміни збережено, форма оновлена</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Конфлікти версій <br> ⚠️ Помилки під час збереження</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список своїх існуючих форм. <br> 2. Обирає форму для редагування. <br> 3. Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі). <br> 4. Зберігає оновлену форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>publishForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Публікація форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма створена та готова для публікації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма опублікована та доступна для користувачів</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Недоступність сервера <br> ⚠️ Відсутність доступу для публікації</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває форму для публікації. <br> 2. Обирає параметри публікації (посилання, вбудовування на вебсайті). <br> 3. Керує доступом (хто може заповнювати форму). <br> 4. Публікує форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>analizeForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Перегляд та аналіз результатів форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Дані форми зібрані та доступні для перегляду</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Admin переглядає та аналізує результати заповнених форм</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Дані недоступні через технічні проблеми</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває інтерфейс для перегляду результатів форм. <br> 2. Обирає форму, результати якої потрібно переглянути. <br> 3. Аналізує отримані дані (завантажує звіт, фільтрує результати). <br> 4. Може експортувати дані у форматі CSV або Excel.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>fillForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Заповнення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма опублікована та доступна за посиланням</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Дані форми зібрані та збережені в системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильне введення даних <br> ⚠️ Неповне заповнення <br> ⚠️ Технічні проблеми</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває посилання на форму. <br> 2. Заповнює поля форми згідно з інструкціями. <br> 3. Натискає на кнопку "Надіслати". <br> 4. Дані форми зберігаються в системі, і користувач отримує підтвердження.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>deleteForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Видалення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма більше не потрібна</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма та її дані видалені з системи</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Помилки доступу <br> ⚠️ Форма ще використовується іншими процесами</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список форм. <br> 2. Вибирає форму для видалення. <br> 3. Підтверджує видалення. <br> 4. Система видаляє форму та всі пов'язані дані. Система забезпечує перевірку на відсутність конфліктів з іншими процесами, які можуть використовувати дані цієї форми.</td></tr>
+</tbody></table>
+</div>
+<h2 id="Короткий-огляд-продукту"><a class="header" href="#Короткий-огляд-продукту">Короткий огляд продукту</a></h2>
+<p>Система дозволяє адміністраторам створювати опитування, поширювати їх за посиланнями серед респондентів та зберігати дані для подальшого аналізу. Респонденти можуть проходити опитування без реєстрації, що робить систему зручною для широкого використання.</p>
+<p><strong>Категорії користувачів:</strong></p>
+<p>Адміністратори: Створюють та керують опитуваннями, зберігають дані респондентів.</p>
+<p>Респонденти: Проходять опитування за наданими посиланнями без реєстрації.</p>
+<p><strong>FURPS:</strong></p>
+<ul>
+<li>
+<p>Functionality: Створення та поширення опитувань, збереження даних респондентів.</p>
+</li>
+<li>
+<p>Usability: Простий інтерфейс для створення та проходження опитувань.</p>
+</li>
+<li>
+<p>Reliability: Стабільна робота системи.</p>
+</li>
+<li>
+<p>Performance: Швидке завантаження форм.</p>
+</li>
+<li>
+<p>Supportability: Документація та підтримка.</p>
+</li>
+</ul>
+<p><strong>Functionality (Функціональність)</strong></p>
+<ul>
+<li>
+<p>Адмін: Створення опитувань, збереження даних про учасників, аналіз результатів.</p>
+</li>
+<li>
+<p>Користувачі: Реєстрація, доступ до опитувань, заповнення форм.</p>
+</li>
+<li>
+<p>Безпека: Аутентифікація, захист даних.</p>
+</li>
+</ul>
+<p><strong>Usability (Зручність використання)</strong></p>
+<ul>
+<li>Простий інтерфейс для адміністраторів і користувачів.</li>
+<li>Адаптивність для мобільних пристроїв.</li>
+<li>Підказки та підтримка під час користування.</li>
+</ul>
+<p><strong>Reliability (Надійність)</strong></p>
+<ul>
+<li>Стабільність системи, доступність без збоїв.</li>
+<li>Захист і резервне копіювання даних.</li>
+</ul>
+<p><strong>Performance (Продуктивність)</strong></p>
+<ul>
+<li>Швидка обробка запитів та даних.</li>
+<li>Оптимізація для великої кількості одночасних користувачів.</li>
+</ul>
+<p><strong>Supportability (Підтримка)</strong></p>
+<ul>
+<li>Легке оновлення та масштабування системи.</li>
+<li>Документація для адміністраторів, технічна підтримка.</li>
+</ul>
+<h2 id="Функціональність"><a class="header" href="#Функціональність">Функціональність</a></h2>
+<h3 id="Функціонал-для-адміністратора"><a class="header" href="#Функціонал-для-адміністратора">Функціонал для адміністратора:</a></h3>
+<ol>
+<li><strong>Створення облікового запису:</strong>
+<ul>
+<li>Адміністратор має можливість створити обліковий запис в системі, щоб отримати доступ до функцій адміністратора.</li>
+<li>Створення облікового запису включає введення персональних даних та створення особистого кабінету.</li>
+</ul>
+</li>
+<li><strong>Створення форм опитування:</strong>
+<ul>
+<li>Адміністратор має можливість створювати форми опитування через спеціально розроблений інтерфейс. Це включає вибір типу питань (одинарний вибір, множинний вибір, текстові відповіді тощо).</li>
+</ul>
+</li>
+<li><strong>Поширення посилань:</strong>
+<ul>
+<li>Після створення опитування, адміністратор може генерувати унікальне посилання на опитування.</li>
+<li>Адміністратор має можливість поширювати це посилання серед користувачів, які мають доступ до опитування, через електронну пошту або інші канали комунікації.</li>
+</ul>
+</li>
+<li><strong>Зберігання інформації про респондентів:</strong>
+<ul>
+<li>Адміністратор, який створив опитування, може зберігати інформацію про ідентифікацію осіб, що проходили опитування, включаючи імена, електронні адреси та інші ідентифікаційні дані.</li>
+<li>Зібрані дані повинні бути захищені відповідно до вимог конфіденційності та безпеки інформації.</li>
+</ul>
+</li>
+<li><strong>Доступ до результатів:</strong>
+<ul>
+<li>Адміністратор має доступ до результатів опитування, включаючи статистику відповідей та можливість аналізувати дані, що зібрані від респондентів.</li>
+</ul>
+</li>
+</ol>
+<h3 id="Функціонал-для-респондентів"><a class="header" href="#Функціонал-для-респондентів">Функціонал для респондентів:</a></h3>
+<ol>
+<li><strong>Заповнення опитувань:</strong>
+<ul>
+<li>Респонденти можуть заповнювати опитувальники, вибираючи відповіді з різних типів питань (одинарний вибір, множинний вибір, текстові відповіді тощо).</li>
+</ul>
+</li>
+<li><strong>Доступ до опитування через посилання:</strong>
+<ul>
+<li>Респонденти отримують унікальне посилання на опитування через електронну пошту або інші канали комунікації, що дозволяє легко брати участь у ньому.</li>
+</ul>
+</li>
+<li><strong>Конфіденційність:</strong>
+<ul>
+<li>Всі дані, надані респондентами, захищені згідно з політикою конфіденційності й не передаються третім особам без згоди.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Практичність"><a class="header" href="#Практичність">Практичність</a></h2>
+<ol>
+<li><strong>Інтуїтивно зрозумілий інтерфейс:</strong>
+<ul>
+<li>Інтерфейс має бути простим і зрозумілим для обох типів користувачів: адміністраторів та респондентів.</li>
+<li>Адміністратор повинен легко знаходити функції створення опитувань, перегляду та редагування результатів.</li>
+<li>Респонденти повинні без зусиль зрозуміти інструкції та варіанти відповідей.</li>
+</ul>
+</li>
+<li><strong>Швидкий доступ до функцій:</strong>
+<ul>
+<li>Основні дії повинні виконуватись за мінімальну кількість кліків, такі як створення опитування або доступ до результатів.</li>
+<li>Респонденти мають мати можливість швидко пройти опитування без зайвих дій, таких як обов'язкова реєстрація.</li>
+</ul>
+</li>
+<li><strong>Мобільна адаптивність:</strong>
+<ul>
+<li>Інтерфейс має бути адаптованим для всіх типів пристроїв, забезпечуючи зручне користування на комп'ютерах, планшетах та смартфонах.</li>
+<li>Важливо, щоб опитування було зручним для заповнення навіть на невеликих екранах.</li>
+</ul>
+</li>
+<li><strong>Підказки та повідомлення про помилки:</strong>
+<ul>
+<li>У випадку помилок система повинна відображати чіткі повідомлення, які допоможуть користувачеві виправити помилки (наприклад, незаповнені поля).</li>
+<li>Підказки мають бути зрозумілими та не перевантажувати інтерфейс.</li>
+</ul>
+</li>
+<li><strong>Легка навігація між сторінками:</strong>
+<ul>
+<li>Для великих опитувань слід передбачити можливість зберігати прогрес, щоб респонденти могли повернутися до заповнення пізніше.</li>
+<li>Кнопки "Назад" і "Далі" мають бути завжди доступними та добре помітними.</li>
+</ul>
+</li>
+<li><strong>Користувацька підтримка та документація:</strong>
+<ul>
+<li>Система повинна містити доступну документацію для адміністраторів, де описані всі функції.</li>
+<li>Додатково бажано надати онлайн-довідковий центр або інтегрований чат для підтримки користувачів у режимі реального часу.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Надійність"><a class="header" href="#Надійність">Надійність</a></h2>
+<ol>
+<li><strong>Стійкість до помилок:</strong>
+<ul>
+<li>Система повинна бути стійкою до помилок, забезпечуючи безперебійну роботу навіть у випадку несподіваних збоїв. У разі виникнення помилок або збою, користувачі не повинні втрачати свої дані.</li>
+<li>Всі дані опитувань повинні автоматично зберігатися в реальному часі, що дозволить уникнути втрати даних у випадку несподіваного завершення сесії.</li>
+</ul>
+</li>
+<li><strong>Висока доступність:</strong>
+<ul>
+<li>Система повинна бути доступною 24/7 без простоїв, щоб користувачі могли заповнювати опитування або працювати з ними в будь-який час.</li>
+<li>Необхідно реалізувати інфраструктуру з високою відмовостійкістю, яка дозволяє швидко відновлювати роботу системи у випадку апаратних або програмних збоїв.</li>
+<li>Система повинна бути здатною витримувати зростаюче навантаження при збільшенні кількості користувачів і обсягу даних. Масштабованість має бути передбачена на рівні інфраструктури, що дозволить обробляти більшу кількість запитів без втрати швидкості та надійності роботи.</li>
+</ul>
+</li>
+<li><strong>Автоматичне резервне копіювання:</strong>
+<ul>
+<li>Система повинна регулярно виконувати автоматичне резервне копіювання даних опитувань і користувачів. Це дозволить мінімізувати ризики втрати інформації через технічні збої або людські помилки.</li>
+<li>Резервні копії мають зберігатися в захищених місцях із можливістю швидкого відновлення даних у разі потреби.</li>
+</ul>
+</li>
+<li><strong>Безперервний моніторинг:</strong>
+<ul>
+<li>Система повинна постійно моніторитися на предмет можливих проблем або збоїв у роботі. Важливо, щоб адміністраторам або відповідальним особам надходили повідомлення про будь-які неполадки в режимі реального часу.</li>
+<li>Платформа повинна включати засоби діагностики та журналювання, які допоможуть оперативно виявляти й вирішувати технічні проблеми.</li>
+</ul>
+</li>
+<li><strong>Захист від втрати даних:</strong>
+<ul>
+<li>Всі дані, що вводяться користувачами (як адміністраторами, так і респондентами), повинні зберігатися без ризику втрати. Це включає запобігання втраті відповідей в опитуваннях або інформації про респондентів.</li>
+<li>Дані повинні бути захищені від несанкціонованого доступу або випадкового видалення.</li>
+</ul>
+</li>
+<li><strong>Сумісність з різними середовищами:</strong>
+<ul>
+<li>Система повинна бути сумісною з різними браузерами та операційними системами, щоб гарантувати стабільну роботу на різних пристроях.</li>
+<li>Забезпечення кросбраузерності та підтримка старих і нових версій популярних браузерів (Chrome, Firefox, Edge тощо).</li>
+</ul>
+</li>
+</ol>
+<h2 id="Продуктивність"><a class="header" href="#Продуктивність">Продуктивність</a></h2>
+<p>Система повинна швидко обробляти запити та дані, забезпечуючи оптимальну продуктивність під час роботи з великою кількістю користувачів.
+Оптимізація продуктивності важлива для забезпечення стабільної роботи при зростанні навантаження на систему.
+Форми опитування мають завантажуватись швидко, без затримок, що дозволяє респондентам ефективно взаємодіяти із системою.</p>
+<h2 id="Експлуатаційна-придатність"><a class="header" href="#Експлуатаційна-придатність">Експлуатаційна придатність</a></h2>
+<p>Система повинна бути легкою для оновлення та підтримувати масштабування, щоб адаптуватись до зростаючих потреб користувачів.
+Необхідно забезпечити документацію для адміністраторів та технічну підтримку для користувачів, щоб допомогти вирішувати потенційні проблеми.
+Система повинна бути стійкою до помилок і гарантувати збереження даних під час збоїв або інших критичних ситуацій.</p>
+<h2 id="Загальна-діаграма-прецендентів"><a class="header" href="#Загальна-діаграма-прецендентів">Загальна діаграма прецендентів</a></h2>
+<p><img src="https://github.com/user-attachments/assets/e803c8d0-6945-466b-a2e9-a4e63d7fc5cf" alt="image" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="state-of-the-art.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="use_cases.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="state-of-the-art.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="use_cases.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

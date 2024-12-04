@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Розроблення функціональних вимог до системи - Організація та управління опитуваннями для експертів</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Організація та управління опитуваннями для експертів</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Розроблення-функціональних-вимог-до-системи"><a class="header" href="#Розроблення-функціональних-вимог-до-системи">Розроблення функціональних вимог до системи</a></h1>
+<h2 id="Діаграма-прецедентів"><a class="header" href="#Діаграма-прецедентів">Діаграма прецедентів</a></h2>
+<p><img src="https://www.plantuml.com/plantuml/png/ZP6zIiDG5CVtFCMXpXridQKYEEaYk0boRIunaDn0xWrISAYjuAY3LEWcla0C3QRQrbVutpVoDBUnT7F89UVZ_piVfwUDI4qMHvxecoIb5gPOsI4gUsz7Tem2kNriaT1qeMLAUr4Ot9ZhA9D_-S-OOM4dMDf9hHcoOhHcrAeZFmxLHZQGKPJSUbwcPLzeIQqrybm6eJOolLHuHSxgqhuupgRw21LXXGzySv4l_YjGOKxuH8wVTP-kk-Eh_LtmQHA4YgdlA5WuTvpYVwZE5dKc_L1GFr56AaDwmBt6J7rp6qA91NBYfyICeNcxvYxh2Bzst22xM-H9aiOK2oK26JEKQLEKpRnOikw9x4Dz1eRpLpMG0y-hpz3EseTkv1spip5zPtOzjtqEtx63Gus34nok9vNFn_y5" alt="" /></p>
+<h2 id="Діаграма-можливостей-користувача"><a class="header" href="#Діаграма-можливостей-користувача">Діаграма можливостей користувача</a></h2>
+<p><strong>Користувач</strong> може виконувати такі основні дії:</p>
+<ol>
+<li><strong>Реєстрація облікового запису</strong> – користувач створює новий акаунт для доступу до системи.</li>
+<li><strong>Вхід у систему</strong> – після реєстрації користувач може входити у свій акаунт, використовуючи облікові дані.</li>
+<li><strong>Взаємодія з медіа-контентом</strong> – після входу користувач отримує доступ до системи медіа-контенту та може переглядати, завантажувати або взаємодіяти з ним</li>
+</ol>
+<p><img src="https://www.plantuml.com/plantuml/png/ZT2nIiH040RWVfzYEEiKdhqSs6eZs0aIaoK6SXl8RWgxyomi1JbEiFK5OZ2OqpE-mZzlvEoU8kbibltPdM-6cLaNLwwU5qh5YIihck090o_Gymql-HOj6hwRK6pfpEgAzeeyktANHQsLggrEOgjfubzETPPRfwjpWqSq0dIy2iJY1rcY9mnumGUlyIwt5ZqsX3Sq-FBjTasEBlR7y76PvKRKPxHIkDavxV-ewHzrejCyfgGqJXj7zbfcdOlwu8juXQqehxpcUr58KkSJcYZmdzAq2-U0xQzze5JOI9H6Xs7iSPoEe_oUQPFwHNy3" alt="" /></p>
+<h2 id="Діаграма-можливостей-адміністратора"><a class="header" href="#Діаграма-можливостей-адміністратора">Діаграма можливостей адміністратора</a></h2>
+<p><strong>Адміністратор</strong> має можливість виконувати наступні дії:</p>
+<ol>
+<li><strong>Додавання форми</strong> – адміністратор може додавати нові форми для взаємодії користувачів з системою.</li>
+<li><strong>Редагування форми</strong> – адміністратор має можливість редагувати існуючі форми, змінюючи їхній вміст або параметри.</li>
+<li><strong>Видалення форми</strong> – адміністратор може видаляти форми, які більше не використовуються або стали застарілими.</li>
+</ol>
+<p><img src="https://www.plantuml.com/plantuml/png/XT8nJiCm50RWtQTuCdDx00PK169ZP6CnpLEfP3ieTWHieR2363emmGsYqagLQ3d3UpV2IL1SMQewH1dy_v_-M1avhmfV6Ys46lky04bljAGDpsdBStxY6LTKyun-kPAW79ncPchXI4ydj_uHjSxlXIWTZfL3a1TvOS0egoPeqFfhIn-quegVQK4rRGFv2lpIMBIXEZphrcngbtqhScS5Ae_DQP2-meX5MrsbKgV4zF-y6rrYnAxkieXz1cGP5dodqtR1hh4NF4UDFVXEwnRysRUkIwUOwAvpa0rEqblO-PnXEKoFuHWaFdYqcPEY7teusiyu71MZy6x-Z3y0" alt="" /></p>
+<h3 id="use-case-1-registeruser---реєстрація-користувача"><a class="header" href="#use-case-1-registeruser---реєстрація-користувача">Use case 1. registerUser - реєстрація користувача</a></h3>
+<p>Користувач заходить в систему вперше, але для того, щоб отримати доступ до інтерфейсу програми їм необхідно зареєструватись. <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває інтерфейс реєстрації</li>
+<li>Вводить необхідну інформацію (ім'я, прізвище, email, пароль)</li>
+<li>Підтверджує пароль за допомогою повторного вводу</li>
+<li>Натискає кнопку реєстрації</li>
+<li>Отримує лист про успішну реєстрацію на пошті та можливість увійти у свій акаунт</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLNXIXj14FxlKmpwssjp5ueM5S7s2KJeZu9Sucg3bqJkBhIs58oM-ATeAN92gLZh2roZgJ5gV8NPD-gtkzucrKkj4hAxyyqttyxCJkQZs0_ZHZKOYojn8CRexczcjLwBAQgy5xEUI-LwK0zdIu5VNfzRMbWkECG_k2CFP5DkoorEPKicSf-untrik_fuXzimx7Bw7vny81DE-KnnyJMdnBTOTcIBEtoEpmtu4cvh9b5R8QDLRwFrIct33_qg-UMu7Yx6cu4W_ws8wbM3CESqlXI9S9pyYDI29gQcIuMI60RmYL6EU92WeOkRKIogD54I9NTgsj1jGB2_9cXfuSLoWJxOspKYKVOZGUCp9PsZcIUbkTSrFaGIjWQvkalBjWxrsUW1MEiHqyyqsqS4oY5qCiglCa5MUZhJ829iRvHii7-2-4lP9DZkb-VG1bikvFEx6J-tuTtKt0YKWZqPEBiZdAsyOoKFpcsb2Fv69D_gHFJvQd1ja8tKOjKSQveEjsLYRmpkjcsD94_aA9dU7UiHFCx1sEGhw382x-d-hTX1kq_uIabK_KemYE3bynV_bOIyikmHB2cfle3BfO7j48JfFK5d3_yf02Zo87xHD8cf9paDPqwlwNcbLWuQAo8QcDr7pDPVx_8XxcCGRnYG3ocIiv91l260GcHFRTBOZHCUQdQ08tqMYdBirzO2f1nzskKU-cbFxkesGCwwUl3OXiz_dIzVsTTvn1qpjDItt7xOJGexYiHsgExhNtob9uT-ZnSGeokF-clhTSRcZcBBElFRmnbAMA0RYI-6XudcRIkjoCDbnk-PF3qi7MmeltWNOu16VsEA5k6DG7WMuLh4yAmAAsjlObgjrsCHMa_-0caf2fJeURThX1BVgXlY22Q7-3ltzKF6N1Wnzfq1un7_v5C-9MJfc5i4wxN3BOTFiD9rL5DLhVYC-zODwAuYcdIVkiNiHoHJEuyrVl_-0000" alt="UC_1. Реєстрація користувача - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>registerUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Реєстрація користувача</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User не має облікового запису <br> - User має доступ до інтерфейсу реєстрації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно зареєстрований у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неповні або некоректні дані <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач уже зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс реєстрації. <br> 2. Вводить необхідну інформацію (ім'я, прізвище, email, пароль). <br> 3. Підтверджує пароль. <br> 4. Приймає умови використання системи. <br> 5. Натискає кнопку реєстрації. <br> 6. Система надсилає підтвердження на email User. <br> 7. User підтверджує реєстрацію через email.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/VLFBRjDG4DtVhnZAWartR00Zr9_W0mgaKAaFb9XT5d7C0wGeaL3bIaY0-8DRmsqT9xP_OUQFE3DsmGMhYyHNCtFEd7DylJU9zyVnc-CZvwPF9wFnr5aXSe-8Fql6lxYK6HUSivSpGg6IEGUPoLiEl9Q4q0ro9edCSVBoNZ8vRz70rC0Nw2mKkRqdgrtY1k2Chz0jv1E7NHeTxnyUQGFm6I0RMHZ1TrsFRRdk0z6bf93G7oFGU4AhHhNcBNu_kPQbBCaAET0rXgksGQ0oJP9s2zJP6ZZpbXe1P97-SMdGGfsn1qKbAvAaAmJC5aRo5U2vLW5G6ZmgqrDAIZjyphwV49Rarm1Px4H8dN_qEFtKX9dZ0FqP82kmcl80fm4wChNizH2vazDuHEF3bwzYkdlm_E3X_GVkyRCdT4U5XSu3dg1N750NcaE5cWLqW-qQ-UMlyqxl1qtdaWC2l-d7E03M7Dtev0Mf7jVbWg0JD3PjBis_hvD3boeUlhq5IE__tUmHzB0gRWRloC2TN1A8sbIlsbtHdniFycysMl0M-DkrDcgQC9Reb7n4DHrSQABrzR_hVmOf0PY3VaqeN_06nz9IH88MBpTg4kecyUdhoEqXLVqyVmC0" alt="UC_1. Реєстрація користувача - Діаграма активності" /></p>
+<h3 id="use-case-2-loginuser---логін-користувача"><a class="header" href="#use-case-2-loginuser---логін-користувача">Use case 2. loginUser - логін користувача</a></h3>
+<p>Користувач вже має свій обліковий запис, але для того, щоб увійти повторно після повного виходу з системи, мають ввести особисті дані для входу й пройти перевірку авторизації <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває інтерфейс входу в систему</li>
+<li>Вводить email та пароль</li>
+<li>Натискає кнопку "Увійти"</li>
+<li>Система перевіряє облікові дані - точніше наявність облікового запису по введеній пошті й відповідність паролю</li>
+<li>User отримує доступ до свого облікового запису</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZPNHIXjF5CRlVOf3l7R__-o6eaL5i7q24NfH2BjnjC5DLdOdjBOKagQDDwMK8WfjHQmli4Q3CTNu2cVUgD_CP9E0BaPGPlTyvpVVd7DsN4ka7yj6BPoJLHcAEHhzB6z7TKb9zRrOyLogH64KhmIXNzbTtLmlkmxnBnxofJhYE-813rMJ-wgbFgasTpbL1vpEGE93vAUWDF7tbbFYUonxgiCzliBl7NX7t3KaKTyYwz0y9hlL-fuV-pNoApAAD-H-ACX_AvAePXNsFHKs4n4No4z8BsX-SIae1c9Qm6VMEVUq1IFTs4-agD5y809tSSdYzc3Otn6qkVwYxDA7yUaQYQZuYQ32Sc0gi_nViFgwpkVSXVKROFl4NLAjoIQgRVr0RFo8fMU6zX4RFG9qYYFa3m2lU60ghR6wzfgeckepk3UgHTZq2zfoDRL5kVWurSset0MYPOX8lU2_uAAXsZzXlnIR74reRWvjxF8KDFHGfskdCtFpV7eZxWaoa6LuM0n7mtPl7WZ10O9jNP7fmtksfhOGv3ISLLltvzLw9MniYMGITfy8J-S_Bl6c1P1F95gJJTM2LTWqpEJe1HAiB1OLwTTtGjG0pUdp09NxfWvqkSmOcMEdgeFw7XTo1l7bgt9nNBUU-QfIzBaFr5SDUg8ZEZsFcytDCVGNggtxmJV4zx3K10iRP0Wt3-5beu8CuyDyUcQWht54Cq0OIXEzpMXU7gqqelryU0aHtt6F-5fx0-_Gn43LKOHWFAENREqVTXinD5AyaxX_adoDEuF6cq5JcjQChuIuklD6qdOKIH6FS_axZf3g9keUw079Ee4wu1L23l5l7fgh57t9kLsT2V64__0vdnDgUSeTGlJMuOx3PtPGW6rXVh3YInwEqw3kQz22-xzRokxgpEqQrlZdyWy0" alt="UC_2. Логін користувача - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>loginUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Логін користувача - вхід у систему</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User знає свої облікові дані (email та пароль)</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно увійшов у систему</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильні облікові дані <br> ⚠️ Користувач забув пароль <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач не зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс входу в систему. <br> 2. Вводить email та пароль. <br> 3. Натискає кнопку "Увійти". <br> 4. Система перевіряє облікові дані. <br> 5. Якщо дані коректні, User отримує доступ до свого облікового запису.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLBTIW916BsVfnZijhjkgetm9Ne0gxK4VqAtEo_KBReHWf0DWfBe1TRDnTLqVONlUwFEcPKYAGYHdJddctFEDz-KEq6b7LmtwiPqJpf-ksiSu9b3AmyQoLGMsfDC4ebrP06iT22fzlH6KfbhtqgYjvBBL4CihVObqpvBPAbXeI89UU037Lg_KQdLBGfYAsjezi1zwD1LFcC_u7bPE3TyLg3Nie1uITvW5S4J9IKFSUNrsqlYBXN6Z8Oz2X7ndXgvJ60GGIidR94aHXFHBlrpm9c5IsfbeY4uB1ByKYxfZYeene0ovYJacMOhy6sxTd4Ps9tgMVLWRzySdHwpWNIxNAE_8nI77h61DzkI-OzBAVWdoG6uJf6GSxZR99wvqbH7v7Y8B2Ze54V716dkhYZZ-6OSKGeSFJfsQVpckML7PZC3njCHK-ORqxNRR3M2_pj1f41evWkzhqS4fHUNAUCx-5KDEPp6FuKxGUlACsM4TO_r4m00" alt="UC_2. Логін користувача - Діаграма активності" /></p>
+<h3 id="use-case-3-edituserprofile---редагування-особистих-даних-користувача"><a class="header" href="#use-case-3-edituserprofile---редагування-особистих-даних-користувача">Use case 3. editUserProfile - редагування особистих даних користувача</a></h3>
+<p>Користувач вже має свій обліковий запис та увійшов у нього. Перейшовши на сторінку свого особистого кабінету, хоче змінити щось із введених параметрів під час реєстрації <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває сторінку профілю</li>
+<li>Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів) + можливо, встановлює аватар</li>
+<li>Натискає кнопку збереження</li>
+<li>Система перевіряє дані та зберігає зміни, якщо такі було внесено</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLJHJjjA47tdAqRX6T-BNLLG0KAY_GA4r8TAaMqM6k7OoDwefLKb0ZIyeBP2A4XL4QNyG0YrI249lp3xHvsTh6sQng9vi2UpPy_CdZFUvKIwiMpKWobPau6O0lDRs8X22KdjdLXqRF2Z88eNlS3rjvRMLggE1VWTK_o97RnM-zYbzm07wZFWK3LnY5VOKqsrHy-FmAY13l-174zKcqbtwTd73k0zXQbgSRMKQkmHeCjC8bo7KTFyDzcgXTjkxDR1zMKKhygTG83xHYHHtI0u3vMrHCGLS1FG0KpFpNkpddW8m0lJVgfROEZgJY957QOzuTbpyoEwRMhOtHImjlAywi3x_7IDHFXk8g2ouB5O2_zvIw_2SS6qEcDogROHIxMvgDxC_Odvfyp-WGfFA63DcXB7gaq4jwHOZ-arAPNOfVI0qlki9YKEA76dFkL5ghEJUMt3Uufzfc3MlCTIDhk4BU_p75FjAdPLE--LoJgaJ8_8ZZG_It84bEfcxeyDr8EIPKTmyYDScQBNet8tsPaA4eVbDOg0rR2ME8PdjT0F6kiYAPRjHvQB_GoU074OKC0B26FCmCsC49pYSUK4EyQvMFZI3JS3EZ4UatItsWbroFQeffQMfgsZMgJcQQLaHb-yh6R6d64wxWEzVu4wq6E4VJssm0DxH-BTKjITP8bcB2jbPpD0V4p4NraFYE-6McQJo6zUxMTiTXbRPkz9Df83J0jlKvtBE8oxVtj4QoI_U2lfGad-n3WvmduKuUI8XzzgNDjyBM4ZYgI8yvtuXPhhQ0tvZZmqAkEzLfbIj6G1ViCXJptPK78DMWNZ6Vx0Ixm4_8hdsD9gzYriMNZ1FcdQfZfYnwvnc6yZT4yJpTZ_sq_oIzLqkqnnenxy1W00" alt="UC_3. Редагування особистих даних - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editUserProfile</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування особистих даних</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User увійшов у свій акаунт <br> - User знаходиться на сторінці профілю</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Особисті дані користувача успішно оновлені</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильний формат облікових даних <br> ⚠️ Проблеми із сервером <br> ⚠️ Дані не змінені</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває сторінку профілю. <br> 2. Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів). <br> 3. Натискає кнопку збереження. <br> 4. Система перевіряє дані та зберігає зміни.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/FL9BhjD04DpFALfX0KXXnGOmGha41mZWGAHyK69sMUIJI215iOGYiuA86pZ9yujVdZE-GlUDNdNRiYnvPhfhQgfgfZEDkfFent3WtEpZD9pCd1K2zuxujoHynrUPSyudJcLFif0bUvcZSKDZHLoYwsMDmgFiRDSVBhGjE-21ojZpKJPAXM9265ARl0Y7tVwW3GfGWmG4spO1LpoNc00wiZT-b2uuFvTVdBsq8_vYnnA51LzD5eOR24gJr8A28sUWpFYii5O0R_nVyLXcN70wKvP33Jf9WaFYIgxNPICoSADn5DAa__LRHCzwdtjlNxznxpzzK0cPUKzLcKhd6yO7ahNcmuKg9BMENW9ztXniQcQTLZm7W0rbmd9IiuZPf9tixxceeFiwE2wLhRw87RwbR64jfbU48iZqRz4JN-moCDMTBXnz8JMaxkkGq3rRXWqq3vgd0DW_iEF-qLifgDHx1Bz9WvTxPGPtNBy40coXAFbP2V1Lfl3N09i4SD0q6d_7q84oUuFk2G00" alt="UC_3. Редагування особистих даних - Діаграма активності" /></p>
+<h3 id="use-case-4-createform---Створення-форми"><a class="header" href="#use-case-4-createform---Створення-форми">Use case 4. createForm - Створення форми</a></h3>
+<p>Адміністратор має можливість створити нову форму для користувачів. Він відкриває інтерфейс для створення форми та додає необхідні поля й налаштування.
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває інтерфейс для створення нової форми.</li>
+<li>Вводить назву форми, опис.</li>
+<li>Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо).</li>
+<li>Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори).</li>
+<li>Зберігає форму</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLFDQjj04BxlKmpkjJ7KFvSIJ4ffU-cj57ee524lgQYb5EqA-aCXZjiqfnHAi4-b1Fe0YcpLIbpRhp3xHfrPPs45RPoBf9dvlczcPp_jAHsaEei7Ghs9ahT16iIW8psGZmyI_Ipw8A7L4JO1pn--wZG1pyqH5hWoXrZY4fVc6z1hPLCJC9zjvGzMBnCyCsFCSKfnJfaSSCqaSqp46PFD4G4A8O9G7wJGUD2FewG1WOA0lrmQpx4oGsfQieYjg_TAorY8JCamK98mjnpAiiDK1fhEbyQUm7SQPOPN1Aj8gW8AbzpJ71Axn4ip1AelIDWCRz-BTtRFxqAeqWfKJCfnZeKPUQIxG4fhFh2Zjppw6HLdc3jwIU65-M8dNven47758pfgswF-e6OBefxGqaTOE962qon0YMCpDgV0EdC-3akQ4txY9GChdB8uplvnnexNQO8NMDhbJ6qFXpOZX-vww5_NKZbtTSJVl5bAcP4Pudep1guiNMLXA9M2Eq-Z_TVwIIfb8WHl6PhDddUrS1zsTwCa76HzsUinehKLqTwAw6n5T6z6U0N6kTFKGSBw7tPsUjO_zR1L3zlri5CFksBpgt3i-rwaCjH1iZ_OcBB2AxhQK_FLseXsNh5BhYqnQS170U1RgSIrSmYmTVZ3tiwZ5pIkZ_r9EF89BgX3LRjYz_CuNglE8n2PctWby_btdFDWJ2xuoRgEsXR4hM_MJa9hbU-qJFgAwkvkRA__LjfUvPFOetSM3_u2" alt="UC_4. Створення форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Поле</th><th>Значення</th></tr></thead><tbody>
+<tr><td>ID</td><td>createForm</td></tr>
+<tr><td>Назва</td><td>Створення форми</td></tr>
+<tr><td>Учасники</td><td>Admin, система</td></tr>
+<tr><td>Передумови</td><td>- Admin має обліковий запис <br> - Admin має доступ до інтерфейсу для створення форм</td></tr>
+<tr><td>Результат</td><td>✅ Нова форма створена та збережена у системі</td></tr>
+<tr><td>Виключні ситуації</td><td>⚠️ Помилки збереження <br> ⚠️ Неповні дані <br> ⚠️ Проблеми із сервером</td></tr>
+<tr><td>Основний сценарій</td><td>1. Admin створює форми для User. <br> 2. Відкриває інтерфейс для створення нової форми. <br> 3. Вводить назву форми, опис. <br> 4. Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо). <br> 5. Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори). <br> 6. Зберігає форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="http://www.plantuml.com/plantuml/png/hLFDojfG4DtVfxZGJGjsAzYKOZU-HulI2bMBJNTP6Atz0QbG96xQYcyGqqHJVv9Nc7cZdiD5JA2BRo5yV8bppypvcTps1__LsFyuU6U2bzr1VnWO5dpFFBFoGoD9vQWJoIMHM5SMXOjE9TE9Vf9C_cfeWJZfqcg8UY85m9bSv88I7eMmjBP0y-GikHlCCXfpdUg2k5WEakYiWcjO84eWGi-OGBPy8pFEue0pDfAH2sqHr2mX3aCJ558Aq8Z2OhvuPZZoUtRSV_FMjuywdMQhsJBFNx-myXCKUpavTspFvGWpt_KB9S6IKE0CpZ-3PEcQVc5yIMCr4jCRTYrvA6rxZGAZLYw6gZcTqP9Bc_2L51pZe1b-x7JEv1q1kHZmOxgN8rFWlCfHms9gB2bwYgTmGBuIJsPOyaXA4jE4PRD-a-B9mrDr8n0Ek1RKX1QkpLd7XFcT4zwWwKmwUh1oa9qJ9VlhftLB-xx4O47wQCieW5_xWL2o9_nFORLDhvqs0FzmWPKLM_w5jtmrgY_zD-Xvhm1r8MFXG3gQz6OLH-IrW8L4wLVKi_-cKhjbkCQZzvvfGoqkzpy0" alt="UC_4. Створення форми - Діаграма активності" /></p>
+<h3 id="use-case-5-editform---Редагування-існуючої-форми"><a class="header" href="#use-case-5-editform---Редагування-існуючої-форми">Use case 5. editForm - Редагування існуючої форми</a></h3>
+<p>Адміністратор має створену форму, яка потребує змін. Обравши форму для редагування, адміністратор хоче внести зміни <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває список своїх існуючих форм.</li>
+<li>Обирає форму для редагування.</li>
+<li>Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі).</li>
+<li>Зберігає оновлену форму.</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/bPJDYXD14CVl_HJ5UdK39l4YIrWHruit4Jm8CaoQTJ2Po7G7_43ORDRrfY0o0Gz-l44sQzmnCSahLBsH_-uXxGoAYuSmtLNr_rLrLP5zOwFC3lizPPuawTCeY_fa4zlJ1uFKtajUQ6gsbJVG_LkFhZU8l_2Sl_6KpsNCCtnNl99t9BcCS1ZBMtd3QvcGdE1pn3-vU9Zo1ycT0lSfB5FY3OvpEVMeENJ729Wf5SLsaD7EpMu_INSeCXIvqzRCNxcGaHn30OZtc-V6whvIGwFZo6Z4_7TvdgExYJqOPFqAwBta02qGL21bGG1iN7vUywBEA-Hru7aQEdMjGlh4P-xbZXBYP4oWBrrfHt-hUCjfLYk2QouZp-4BC78O2iTPrz_ZbQsASi9dKBf4vwLw3UKQsPQ---DAMLjvkoOFkIu2wJj-W5ojQEjSdCeP3UDO6qDNxYQ7Z-sTJEjKATSYQZGweVDqW_RsaZJk3Rkwqt7-vYN-rYN-zh_ymOoOK64zHFdbeztTZXze_TgiNrlrQrkLY-dlORTKfcCRfOUzSfW5BtZf5sWbETRBxPcCiIUdsAx93hrKHBzdyD7rLawWo7bH3d7c9Y4Z67xuHjz-W2ghci_GO2CmZOMBtxYD9kIRokYFIOQb0wMfWAbroA7H7ltCwhHhu0tzTU4Lpokbzd5mVoY_0000" alt="UC_5. Редагування існуючої форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування існуючої форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Створена форма, що потребує змін</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Зміни збережено, форма оновлена</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Конфлікти версій <br> ⚠️ Помилки під час збереження</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список своїх існуючих форм. <br> 2. Обирає форму для редагування. <br> 3. Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі). <br> 4. Зберігає оновлену форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/hLFDhj9G4DwVfpZ1ZIOcxaYmnc2Cl829UvIgJQ0rfRfY0Qq_BWmanjIDOdm3AFJI53YymimRtMzEBqrpaxkuoLr0XkattyzCwOwZVXXz70sLcZmRZ3n_ecp7KOyr_UIKjbJob0hAQCM_DC_eH0M-3PMQKnH7JdZEtz3yelap6O0FTdX9QpIdCbO_u4I3SCyBZLyvoXLjE15kEe9fuS05_HS1Zl7yGAk9KFqJEM1sd80Cy8BMmYpYj-2k4qeqD0tF81Np3qqxpATe5Ve-9Wq-iFr8bAGKLX4-aP7oOOtdUICSHkAce4Qn9gDjc0A3wGExcBy2b8oIIMXByGBo4X5Qz1j3kOsm4LZhnfrKe0nNc5RsCl3aeCsXdZOoESeF8bU7thltaRxNwxKxxOvwylgffZ_GlQ1zTTvgiIMCoZsFQ5pj9u7Dhv1PsA7dWVzswBs9NhdXs0jyvVe3BVmAhixceRkfiXcRBOD6VkrQT-lgPV-J-o8CWx3Xft7k9GRaBOQkFQIys1o3MfQuXLf-lja93QC1cmcAlyjEiSlwA3KKTnb7mGT7TQ4eVw1B" alt="UC_5. Редагування існуючої форми - Діаграма активності" /></p>
+<h3 id="use-case-6-publishform---Публікація-форми"><a class="header" href="#use-case-6-publishform---Публікація-форми">Use case 6. publishForm - Публікація форми</a></h3>
+<p>Адміністратор має створену повністю готову форму та хоче її опублікувати <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває форму для публікації.</li>
+<li>Обирає параметри публікації (посилання, вбудовування на вебсайті).</li>
+<li>Керує доступом (хто може заповнювати форму).</li>
+<li>Публікує форму.</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/XLDTQnD157sVNp7KvmRS11-aX8fONtmJmGT1ritGBkvkoiui-87G9jA-Y8981455y0TiOm9BsYH_uSu_yimDkyvQQ1wIpBttd3DpxptProRCJP4cGh-Ci-Cm3rDfOfEeWs5c7iTlb0nwGd16Fhd__4v7qayxfWkwj1DQK6dFxCH-alOzhUm9NL7rBAClA9Nq1t69J2bfZUFSdj6SPlWixGY0gH1XP8QvtBatIEDiHuPQXkvKf-aNLVRKZi202DVrQsrKAaIXLHHg1SpDRs7ISV4YYVNHmJ1FFU9dK6Qq0Ax25LL3icE9_2LaQ7rD-oiBOWotFQKVTE4wTIhWuB1fUsv7Jln6cS2J-GR62Q3JMcf6AzS-KcjQqLNDwVfN--8Drs-cPlKyrcykyc9MlW0Y2D0I1QYKxHSWsmm6I9uRr_ZISxVGpOgAA59QorkFuiCZyp1NAXF2JKnsEdr_5_AktDkBioWf1ghVTv1WEwIx7TBR0l4hG3OFRgC4Mr7kxlPvtUqmQ8VTTjWJ6vjox9jFv2eoONQOiF-eeWN6-T6Uqz9Ef3sbYiVPMEIjaFBVqhxJlBKFSFZy0Kpd79hoz-P_yk0fdWnss-t0Z-t8O_g2MttFge60x7yJvDimFlNAg6oW0QYtm0olyaxiuxT8axy0" alt="UC_6. Публікація форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>publishForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Публікація форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма створена та готова для публікації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма опублікована та доступна для користувачів</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Недоступність сервера <br> ⚠️ Відсутність доступу для публікації</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває форму для публікації. <br> 2. Обирає параметри публікації (посилання, вбудовування на вебсайті). <br> 3. Керує доступом (хто може заповнювати форму). <br> 4. Публікує форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/hLFFYjDW4Bz_J_6nNbRmlB1MPFUoHn741qXtWnl8ffAaFVNGDcezI08YAOXQVOCsD1gJD7s5cJVoDr-CjL1ldhxCd_dzPdupkGX2om-7TwvIuykREySRA-FfgOUQtdDA6ofvGWLbjE8FcbzH0xFcI2DISQ9fnn6jgK9gYPGtdFB257-1jq0kof241vzKKyupmJjQfq-HsF0KT1MIjxJbv846zPeZq3MKuSswYCQpacYE-1JUdu1ExnloZ-2PS2JK6q54919iglKfl-OPDPfgcDyfr_G3jHBBW1eBFkB5NwEsa9zRFvZATgOI_0qAIuXnGilzE1nr82Szo4hVf0fc3ihLMB2MqXxiZ5EqcGXQsqr5XJXDm-_-eQqt26tjEozkGttlwkhi_EnSFUe_rlHfZs1qmKU9sfZdHYYHrSZG0YMcw9djZsp_kMUDBCUr-gwjREz62uD2duT37QpVIFAL6hDawPKNl3WK6-fm_ETCIgbiXVYjpnomsVyTvydWwR3lEi7jvVMr7GJxORhZDeVPNg1COKvJZXpRoSnEDd8ItNtju6WqqgQInM_XZOuj9SQQWt3migSkm2W_qoy0" alt="UC_6. Публікація форми - Діаграма активності" /></p>
+<h3 id="use-case-7-analizform---Аналіз-форми"><a class="header" href="#use-case-7-analizform---Аналіз-форми">Use case 7. analizForm - Аналіз форми</a></h3>
+<p>Адміністратор має створену форму та хоче проаналізувати результати опитування <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває інтерфейс для перегляду результатів форм.</li>
+<li>Обирає форму, результати якої потрібно переглянути.</li>
+<li>Аналізує отримані дані (завантажує звіт, фільтрує результати).</li>
+<li>Може експортувати дані у форматі CSV або Excel.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/TLFTQXD15BwVfpYaDmfwaJIKu8Mq-SaB1CKx6NQ74he_ihl1nYAOLF56K4HpgVW6szYOsBIRLpZpHdupEv5kIM-McUyxv_lEcNFsCCraaet2GAGdm-YLJ6H8qilYP92D0qNojKhZKDqbwKmGjQLtSfp4eyZln06mlNw_t-fsY0mN9xvA7Dvjj9iju4JWtWfHIXpvuJ1ovnh_ufMUw2al-9hp6icK1kCqKo7j7NMxhTu12J5AbITJHSywBsKaW_4RrO-J4A58_yaB_Gx9ltcjF_CbGIadplc6So0pNfAbb_eSrq-6rLF0SzBlkG1rpQlQRODwAViLCPTyXO0LSbQ4wmqEy4BUWl_g2O679V6cMe4-lyUnOjCeRNxm1OBpqi8L185xfIiQ-wN6bsslrdBkr22He-GPFU0bJe1D0_Z-SHq1dkkPdZw2CN9jgUZklyB3YbUpzFgE9vdmnXIAw1rkfdlNHzatTGRF2UG55zGxzLHG4udoCXaT1ygEhp0Zu3LVOVfd98YshhqNss5yS-9eT06dGa-i-QPq_EWUQKbsG1yC2j0cRC0Ky5w3DvCsgze-wDJjDhezU_pqpc89kw0xyCeLYML4dPxGCFA2aQzI8IpWcCPjnjuTiLybS7T4SoTXNWA4EirKvAVY45_pt_u3" alt="UC 7. Аналіз форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/bLBDJi904BxlKspYHHFF98Wn69KNC7elqYX9AGQgyS01Yee78yPWlPdu1b2fB3zjNs7sZVncfS64W_6syyrytynyEyMcPpMygveZH6k_KgkwBM4GiIFfHGSqffbkawAGXdeW0SJQfqYtzIr5DDKTYOgvxajA6GNsoI6DTLUQSAAx01wr3xuFUYZ1J91Q5BZ5Eur88MBnB07gVqMDrZF5D0GUS1vwKFFDx0l0iGwWkdniqWIla2FMe2zJ3p3KWVQtCGb4q83v9hNUbTIMQVeAVpgKykIeHksg2wRDLc86a8FZKudaY19vT7DcEmMOJXymeCEcSbcBDT-uXXkQ_NkPQi9bc24rmL_saYe8j-xPib4zl_3aHgcKo-VoOhUyXuybHJFmddIFFPFOGB4qHExXGDzK7LgUTU9QrrRLiSgEZRa6cOynHR_dCI2aef-HfBcGEqO16aAAJ8ATvcPB9Mot8dcurT7nBMJVPHPcJ_a_k14up8mXrb-AmLts7IqUW2kQhXsBP5DWz-egO7VJgr-A8jhpnNy3" alt="" /></p>
+<h3 id="use-case-8-fillform---Заповнення-форми"><a class="header" href="#use-case-8-fillform---Заповнення-форми">Use case 8. fillForm - Заповнення форми</a></h3>
+<p>Користувач вже має свій обліковий запис та увійшов у нього. Форма опублікована та доступна за посиланням, користувач бажає її заповнити. <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває посилання на форму.</li>
+<li>Заповнює поля форми згідно з інструкціями.</li>
+<li>Натискає кнопку "Надіслати".</li>
+<li>Дані форми зберігаються в системі, і користувач отримує підтвердження.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/XL9DRzD05BplhtWAXvuQYPG3GbLK2L4klLMLE21L9bcALTkfx3NYGqWqeUM2G49HUk80ly2O1AoQ97_XxJzYrbl7jWBXO7dtxSpixBot5oadLB7lYUZK3SwSqF59kSgJ-uD07Rgl97NkYA90H_UFxxQ9hpZX9IyuvJdFyCtr9zBlUA7Vyc_E7WSyrXD0Vc2Ve98GBx6SwKkWfuQXXm2aGZWzDGYfTHJ9i4LEH34MPP6_SgRFzH1uI1J7qSj8ILy8m7fE987PxAGWFNKzRtyG-YNBNaUSmiAKhu7CG4_qc8oIFiSsXwhLmYzP2UfH8JWuay616vp-tOR-UAF4-J-ykDBhHpNo5rm-D6_bQsF3tedr71fB61pHbi7mL4-0oIrwomOIF_5TrNmTZurxFQdTJVoBl_FCz81_uZEdd1BKLWdhYJK8gKFdkUpJhGFtv9bw64eP254-cThjxYfGkaUxksxGy-A-x7P5zRPDgChnVxLAJEMf2J9F3cbxkzleYArKPgfQBImxI1NIr4GeUye9JZoJuMVEq84SpNnlipHH3VK8uL-Y3LSjUYs8wZsS5JEUSCePU1_CF18sgHtvSfocfZUGkYZIVl3e-FQwJ3dEwDhwT9UyJeFt3SszC4Plx1PU5kXv3Xu6e6Jj2D0QuHeBo5M-K390MEkddOsdExNJDs8F_zZt_W00" alt="UC 8. Заповнення форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/hLDDRjD05DxFAPxAbdMbOeIwwWqu08W8aA15YTbvOSUKWbGH2LLbGq5mWi6r6ol6pXM-ToE-nvELoEiktCwClf_lVJCvNgJFvkdxjsz2zdGncsVX_puy4dpLQzJOQ8uM5Q9U2ROOjE2sGqIFNbV2Vr7q0mR2_cgP6F4ReY5H4V55dOQEu167Lh36hUcJFt0ZNFTQw59pBUdvKQzrPK0Jn0tTbsXflR4SRierkTWINSg1OL2JLQ1pz44IGePVHkEseLZCJEmd6isvhmZETQMMZmSHbGscb-XDXKakXKSLaJM_dZhdmcNqPH9EpzAPp5-_V9NAWvEJmwF3e_3u-HF1TmouG-UbYQaoQSSYBhmhzaVn4j67TD8DccaADFl-tlREVuzcJJjylIj-f8JPwGkngC5lvezDpx9lhKZNuxnxDtFFW_sctxbP4CM_tlN061qQivlcYvQGWsp9kz1IhnwAViQmIugrpq3K7JyU9M5ykbJuOKy8hRr5lrc-CLsYCWfgKiOgFOWGLXXAFrbdK_LfwxHQf6VlmZ5JyoVp3m00" alt="" /></p>
+<h3 id="use-case-9-deleteform---Видалення-форми"><a class="header" href="#use-case-9-deleteform---Видалення-форми">Use case 9. deleteForm - Видалення форми</a></h3>
+<p>Адміністатор відкриває список форм, обирає форму зі списку та видаляє її. <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває список форм.</li>
+<li>Вибирає форму для видалення.</li>
+<li>Підтверджує видалення.</li>
+<li>Система видаляє форму та всі пов'язані дані. Система забезпечує перевірку на відсутність конфліктів з іншими процесами, які можуть використовувати дані цієї форми.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/XLDDYnD14BtthoZYUGDEFCaILlpmuaq43u8CasOTpCpAT0VyG329h1v4GPRnfWZ-W34cC2Jkv2zK_IDVzp1BRrZYQQQwtgjw_QhwoDYui9DihCppD7yH5t56DhLZVUyajm_JrvgY6yeVqAFRJ-_eiRP85LcV-2lNlEIADxpYSpwNBoJlkP5t_9Vh9pcVIOda7yGLJYhYBNvNSWhqqZ5a1i12gJYn9mNrResoDEzHR2XsVzqn_-HQfZ830qLythmoLcTAJOnEOgE1sQV4KqONkaEMb62j0QjHloQPyjOruuRN5mKy7JU_7X2_ysztAq_gS38d5DkWDIzsrNGreg363zTSPW2lG5-s4lPm1m7tLziIde9KaIC0MkwmfMpTcYI9DeQkFKYFdzdxXTQvKkv2rEyF0sFe9XqUfdaodepqSEWGqNyHW_s8805SfsG7fFouwU1Ww6s-74QNmu5gP-_YSAQgq8cDy-DnjmnhJEApVF2koDIPAtCCx5HA-TQZDueec0GtRazu0rRjp6nawl5RcNi7xpw6BAAh_FUEhttORcd32vdB6VYV46CFIsZu210wj2-WSIy0cYftrDMF51hisENQmYlzqkfyPAxCHq7-hJh2rptaVm00" alt="UC 9. Видалення форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/hLFDIiD04BxlKonuyD9peLQaNleUIeiMR2irtd986sahY04fyI8MmGT8IrD3cfzNc7aZlzdOO4l1YvUmE_DzytqpEsdSMHS3wxvxevHztkfsUhOo4NMYwOLzMb7C3aMqf81dceUKKuHlHh7c1ygGI-e62ym2AKTmPOfTZGeRzZGAH3W6jA6GKahPCxIvIF08sP0TvDViWdu8h6pw46c0Gqeei0rTQBWlsMU7FPvLD4yeAlKfA6h5vbgmCw0XmYD-mjtJx4DW2b028kN0PJn6tI7q4QghNjzgwq7dwjhIHyrcjLQjgTFBCqrlABM6HGodr46lpt2G8e024KHS36GCUrv1-YoDyIE5VxfJxLvBYm6r7R8P2tkxGmPH783XemKfSimUVG6QIcHL7FwvbJb8611eCJ0GoQ0lg9pTNT-lq5zG24Cv1ZkH1YlIV_RxeQI7qkhU2i1xkPzIy1qwifL9iIxv_XPjr-RdFJLWGq7n5F7mu7vXxVktIZLWtFmDtm00" alt="" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="stakeholders-needs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="design.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="stakeholders-needs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="design.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

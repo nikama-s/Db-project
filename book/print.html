@@ -1,0 +1,1638 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Організація та управління опитуваннями для експертів</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Організація та управління опитуваннями для експертів</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Виконали"><a class="header" href="#Виконали">Виконали</a></h1>
+<p><em>студентка 2-го курсу, групи ІМ-33</em> <strong>Бабаніна Арина</strong>
+<br> Telegram: [@nevsetakpohano]<br />
+<em>студент 2-го курсу, групи ІМ-33</em>   <strong>Козарезов Кирил</strong>
+<br> Telegram: [@Kiryao]<br />
+<em>студент 2-го курсу, групи ІМ-33</em>   <strong>Крикота Давид</strong>
+<br> Telegram: [@davidkrikota]<br />
+<em>студентка 2-го курсу, групи ІМ-33</em> <strong>Масло Вероніка</strong>
+<br> Telegram: [@nikama_s]<br />
+<em>студент 2-го курсу, групи ІМ-33</em>   <strong>Набока Тимур</strong>
+<br> Telegram: [@TymBim]<br />
+<em>студентка 2-го курсу, групи ІМ-33</em> <strong>Пилипчук Вероніка</strong>
+<br> Telegram: [@namanica]<br />
+<em>студент 2-го курсу, групи ІМ-33</em>   <strong>Юрченко Ілля</strong>
+<br> Telegram: [@yuro_chka]</p>
+<h1 id="Керівник"><a class="header" href="#Керівник">Керівник</a></h1>
+<p><em>доцент кафедри ОТ ФІОТ, к.т.н., доцент</em> <strong>Андрій БОЛДАК</strong>
+<br> Telegram: <a href="https://t.me/a_boldak">@a_boldak</a></p>
+<p><a href="https://kpi.ua/">НТУУ "КИЇВСЬКИЙ ПОЛІТЕХНІЧНИЙ ІНСТИТУТ імені ІГОРЯ СІКОРСЬКОГО</a></p>
+<p><a href="https://fiot.kpi.ua/">Факультет інформатики та обчислювальної техніки</a></p>
+<p><a href="https://comsys.kpi.ua/">Кафедра обчислювальної техніки</a></p>
+<p><em><strong>Київ 2024</strong></em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h1>
+<p><strong>Опитування</strong> — початкове призначення <em><strong>Google Forms</strong></em>, які створювалися для отримання зворотнього зв'язку від відвідувачів сайту саме в формі відповідей на запитання.
+<br> У педагогічній практиці опитування проводять класні керівники, наставники, адміністрація навчального закладу, вчителі і викладачі.
+<br> Існує ланцюг переваг у використанні таких систем:</p>
+<ul>
+<li>не потрібно тиражувати матеріал опитування на всіх респондентів</li>
+<li>немає потреби особисто спілкуватися з респондентами, збирати їх всіх в один час і в одному місці</li>
+<li>результати опитування зберігаються і постійно доступні в інтернеті й автоматично опрацьовуються і представляються у вигляді наочних узагальнених діаграм</li>
+</ul>
+<p>Наша мета створити систему для організації та управління опитуваннями для експертів різних спрямувань. Провівши аналітику наявних ідейносхожих програм, нам вдалося порівняти їхні характеристики та скласти характеристику для оцінки їхнього стану та умов покращення.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Розроблення-загальних-вимог-до-системи"><a class="header" href="#Розроблення-загальних-вимог-до-системи">Розроблення загальних вимог до системи</a></h1>
+<ul>
+<li><a href="./state-of-the-art.html">Аналіз предметної області</a></li>
+<li><a href="./stakeholders-needs.html">Запити зацікавлених осіб</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Аналіз-предметної-області"><a class="header" href="#Аналіз-предметної-області">Аналіз предметної області</a></h1>
+<h2 id="Вступ-1"><a class="header" href="#Вступ-1">Вступ</a></h2>
+<p>Даний документ присвячений аналізу предметної області, який є невід'ємною складовою будь-якого процесу розробки інформаційних систем. Вступна частина містить короткий огляд основних розділів, що будуть розглянуті далі. У першому розділі надаються основні визначення термінів та скорочень, які використовуються при аналізі. Далі аналізуються підходи та моделі вирішення завдань, що є критичними для правильного розуміння та оптимізації процесів у заданій предметній області. Після цього проводиться порівняльна характеристика існуючих рішень з точки зору функціональності, зручності, надійності, продуктивності та підтримки, що дозволяє оцінити перспективи розробки своєї системи. Завершується документ висновками, у яких підсумовуються результати аналізу та обґрунтовується подальша стратегія розвитку системи.</p>
+<h2 id="Основні-визначення"><a class="header" href="#Основні-визначення">Основні визначення</a></h2>
+<ol>
+<li>
+<p>FURPS — це модель для оцінки програмних систем, яка охоплює п'ять основних аспектів: Functionality, Usability, Reliability, Performance, Supportability.</p>
+</li>
+<li>
+<p>PayPal — міжнародна електронна платіжна система, яка надає послуги в транскордонному режимі будь-якій людині у світі, у якої є банківська картка. </p>
+</li>
+<li>
+<p>Google Sheets-одаток для роботи з електронними таблицями, що входить до складу безкоштовного вебпрограмного пакету програмного забезпечення, пропонованого компанією Google у межах служби Google Диск.</p>
+</li>
+<li>
+<p>Емпіричні дані - це інформ- ація, яка підтверджує істинність (яка точно відповідає дійсності) або хибність (неточність) твердження.</p>
+</li>
+<li>
+<p>MailChimp — сервіс електронного маркетингу для e-mail розсилок.</p>
+</li>
+<li>
+<p>Дельфійський оракул — оракул при храмі Аполлона у Дельфах — одному з найдавніших релігійних центрів Стародавньої Греції.</p>
+</li>
+<li>
+<p>Javascript - динамічна, об'єктно-орієнтована прототипна мова програмування.</p>
+</li>
+<li>
+<p>CSS (Cascading stylesheets) -  це спеціальна мова стилю сторінок, що використовується для опису зовнішнього вигляду сторінки.</p>
+</li>
+<li>
+<p>HTML (HyperText Markup Language)- стандартизована мова розмітки документів для перегляду вебсторінок у браузері</p>
+</li>
+<li>
+<p>CRM(Управлі́ння відно́синами з кліє́нтами) — поняття, що охоплює концепції, котрі використовуються компаніями для управління взаємовідносинами зі споживачами, включаючи збір, зберігання й аналіз інформації про споживачів, постачальників, партнерів та інформації про взаємовідносини з ними</p>
+</li>
+<li>
+<p>SOC2-це аудит контрольних процедур в IT організаціях, що надають послуги. По суті, це міжнародний стандарт звіту для системи управління ризиками кібербезпеки. Цей стандарт розроблений «Американським інститутом дипломованих громадських бухгалтерів» (American Institute of Certified Public Accountants, AICPA) і був оновлений у березні 2018 року.</p>
+</li>
+<li>
+<p>GDPR (Загальний регламент про захист даних) — регламент в межах законодавства Європейського Союзу щодо захисту персональних даних усіх осіб у межах Європейського Союзу та Європейської економічної зони. Він також стосується експорту персональних даних за межі ЄС і ЄЕЗ</p>
+</li>
+<li>
+<p>CAPTCHA-торгова марка університету Карнегі — Меллона, комп'ютерний тест типу виклик-відповідь, який використовується для того, щоб визначити, хто використовує систему — людина чи комп'ютер.</p>
+</li>
+<li>
+<p>Salesforce-американська компанія, розробник однойменної CRM-системи, що надається замовникам виключно за моделлю SaaS.</p>
+</li>
+<li>
+<p>HIPPA-є актом про мобільність та підзвітність медичного страхування</p>
+</li>
+</ol>
+<h2 id="Підходи-та-способи-вирішення-завдання"><a class="header" href="#Підходи-та-способи-вирішення-завдання">Підходи та способи вирішення завдання</a></h2>
+<ol>
+<li>
+<p><strong>Метод експертних оцінок</strong> використовуються для одержання змінних емпіричних даних. З його допомогою досліджують педагогічні проблеми, які не піддаються формалізації. Цей метод поєднує опосередковане спостереження й опитування із залученням експертів для оцінювання явищ компетентних фахівців. Для цього проводиться опитування спеціально дібраної групи експертів (5-7 осіб) з метою вивчення значень певних змінних величин, потрібних для оцінки досліджуваного питання. Експерти добираються за ознакою їх формального професійного статусу – посади, наукового ступеня, стажу роботи та інше.</p>
+</li>
+<li>
+<p><strong>Метод комісії</strong> полягає в тому, що на базі сукупностей індивідуальних думок експертів намагаються віднайти найбільш об’єктивну, обґрунтовану думку для вирішення будь-якого питання. Оскільки експерти за цим методом працюють в групі, то вони можуть безпосередньо обмінюватися один з одним думками. Кожний експерт захищає свою думку, але у випадку необхідності повинен бути готовий змінити її. Під час викладу своєї думки експерт має аргументувати і обґрунтувати свою позицію, навести докази.</p>
+</li>
+<li>
+<p><strong>Метод мозкового штурму.</strong> За цим методом заключне рішення приймається на основі суми індивідуальних думок експертів, а не на основі групового мислення експертів. Суть цього методу полягає у вирішення таких завдань: творче генерування нових ідей, аналіз і оцінка запропонованої ідеї.</p>
+</li>
+<li>
+<p><strong>Метод евристичного прогнозування</strong> характеризується теоретичним обґрунтуванням, з’ясуванням компетенції експертів і алгоритмом обробки одержаної інформації.</p>
+</li>
+<li>
+<p><strong>Метод "Дельфі".</strong> Слово "дельфа" походить від давньогрецької назви міста Дельфи, яке відоме своїми "дельфійськими оракулами", до яких звертались за порадою. Суть методу "Дельфі" полягає у послідовному анкетуванні експертів і виявленні основної (головної) точки зору фахівців з певного питання.</p>
+</li>
+<li>
+<p><strong>Метод узагальнення</strong> незалежних характеристик полягає в тому, що про особу, за якою спостерігають, дають незалежні оцінки різні люди. Узагальнення характеристик необхідно розуміти не їх суму з метою знаходження середніх тенденцій, а детальний аналіз і синтез різних характеристики, під час яких відкидається несуттєве, суперечливе. Метод узагальнення незалежних характеристик полягає в тому, що про особу, за якою спостерігають, дають незалежні оцінки різні люди.</p>
+</li>
+</ol>
+<h2 id="Порівняльна-характеристика-існуючих-засобів-вирішення-завдання"><a class="header" href="#Порівняльна-характеристика-існуючих-засобів-вирішення-завдання">Порівняльна характеристика існуючих засобів вирішення завдання</a></h2>
+<ul>
+<li><strong>JotForm</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td>JotForm пропонує широкий набір функцій для створення форм, таких як інтеграція з різними сторонніми сервісами (Google Sheets, PayPal тощо), умовна логіка та динамічні форми.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Інтерфейс інтуїтивний та зрозумілий, користувачі можуть швидко створювати форми. Є мобільний додаток для збору даних у дорозі та шаблони для спрощення налаштувань.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Високий рівень надійності завдяки регулярним оновленням. Працює на різних платформах, але для складних задач може знадобитися технічна підтримка або додаткове налаштування.</td></tr>
+<tr><td><strong>Performance</strong></td><td>Платформа стабільно працює з великими обсягами даних, хоча швидкість може змінюватись в залежності від інтеграцій та налаштувань форм. Прості форми працюють дуже швидко.</td></tr>
+<tr><td><strong>Supportability</strong></td><td>Добре організована технічна підтримка з документацією, FAQ, форумами та чат-підтримкою. Регулярні оновлення з новими функціями та інтеграціями роблять платформу гнучкою.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><strong>Ningaforms</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td>Підтримка створення форм через drag-and-drop, інтеграція з WordPress, можливість збору платежів.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Інтуїтивний інтерфейс без необхідності кодування, адаптивність до мобільних пристроїв.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Висока стабільність роботи, рідкісні збої, якісна технічна підтримка.</td></tr>
+<tr><td><strong>Performance</strong></td><td>Швидке завантаження форм, оптимізоване використання JavaScript та CSS.</td></tr>
+<tr><td><strong>Supportability</strong></td><td>Розширена документація, база знань, оперативна технічна підтримка.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><strong>FormBuilder</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td>123FormBuilder пропонує широкий спектр форм із вбудованими функціями для збору даних, інтеграцій із популярними сервісами (PayPal, Salesforce), безпечних платежів, оповіщень електронною поштою та аналітики.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Інтуїтивний інтерфейс із drag-and-drop, адаптивний дизайн для різних пристроїв.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Сервіс гарантує високу безпеку, підтримує GDPR і HIPAA, з багатошаровою системою захисту</td></tr>
+<tr><td><strong>Performance</strong></td><td>Швидкий доступ до форм, автоматизація робочих процесів.</td></tr>
+<tr><td><strong>Supportability</strong></td><td>Документація, підтримка та шаблони для різних галузей.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><strong>PaperForm</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td>Платформа пропонує понад 27 типів полів, можливість налаштування через HTML/CSS та інтеграцію з понад 3000 додатками, включаючи CRM та платіжні системи.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Інтуїтивний інтерфейс на основі перетягування, схожий на роботу в текстовому редакторі, дозволяє легко створювати та налаштовувати форми. Є безліч шаблонів для швидкого старту.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Підтримує високі стандарти безпеки (SOC 2, GDPR), захист від спаму (CAPTCHA) та стабільну роботу навіть при великих навантаженнях.</td></tr>
+<tr><td><strong>Performance</strong></td><td>Швидка робота завдяки інтеграціям із CRM та маркетинговими платформами. Підтримка великих обсягів даних та багаторазових подань форм​.</td></tr>
+<tr><td><strong>Supportability</strong></td><td>Є доступ до бази знань і пріоритетної підтримки для користувачів із вищими тарифними планами.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><strong>Google Forms</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td><strong>Google Forms</strong> надає широкий спектр можливостей для створення онлайн-форм, включаючи різні типи запитань (текст, вибір, чекбокси, рейтинги тощо), автоматичне збирання відповідей у таблицю Google Sheets, підтримку завантаження файлів та інші корисні функції, такі як логику умов (переходи між розділами в залежності від відповідей).</td></tr>
+<tr><td><strong>Usability</strong></td><td><strong>Google Forms</strong> відзначається високим рівнем зручності використання завдяки інтуїтивному інтерфейсу. Навіть початківець може легко створити форму без потреби у спеціальних навичках. Користувачі можуть переглядати зміни в реальному часі та спільно працювати над однією формою з іншими.</td></tr>
+<tr><td><strong>Reliability</strong></td><td><strong>Google Forms</strong> працює на стабільній і безпечній платформі Google, яка має високий рівень захисту даних і приватності. Всі форми та відповіді зберігаються в Google Drive, що забезпечує їхню доступність та захист від втрати. Відгуки свідчать, що сервіс дуже рідко стикається з технічними збоями чи проблемами доступності.</td></tr>
+<tr><td><strong>Performance</strong></td><td>Платформа <strong>Google Forms</strong> дуже продуктивна, оскільки обробляє великі обсяги даних швидко та ефективно. Відповіді збираються у реальному часі та автоматично оновлюються в пов'язаній таблиці Google Sheets, що дозволяє швидко аналізувати дані. Сервіс підтримує одночасну роботу великої кількості користувачів без значних затримок чи проблем з обробкою даних.</td></tr>
+<tr><td><strong>Supportability</strong></td><td><strong>Google Forms має</strong> розгалужену базу підтримки через офіційну документацію, довідкові центри та форуми користувачів. Крім того, є велика кількість навчальних матеріалів у форматі відео, статей та інструкцій, що допомагають розв'язувати різні питання. Для користувачів корпоративних або освітніх облікових записів Google надає доступ до більш глибокої підтримки через спеціалізовані канали.</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><strong>Wufoo</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th><strong>Параметр</strong></th><th><strong>Опис</strong></th></tr></thead><tbody>
+<tr><td><strong>Functionality</strong></td><td>Wufoo надає користувачам широкі можливості для створення онлайн-форм для опитувань, збору даних і платежів. Дозволяє інтегрувати форми з іншими сервісами, як-от PayPal, Stripe, Salesforce, і використовує шаблони для налаштування дизайну.</td></tr>
+<tr><td><strong>Usability</strong></td><td>Wufoo пропонує інтуїтивно зрозумілий інтерфейс, що робить створення форм простим навіть для користувачів без технічних знань. Процес налаштування форм потребує мінімум часу, а доступні попередньо налаштовані шаблони прискорюють роботу.</td></tr>
+<tr><td><strong>Reliability</strong></td><td>Wufoo забезпечує стабільну роботу завдяки використанню хмарної інфраструктури. Дані користувачів захищені за допомогою SSL-шифрування. Платформа регулярно оновлюється, підтримує безперервну роботу та резервне копіювання даних.</td></tr>
+<tr><td><strong>Performance</strong></td><td>Wufoo здатна обробляти велику кількість запитів і користувачів без значних затримок. Швидкість обробки даних дозволяє зберігати високу продуктивність навіть при високому навантаженні.</td></tr>
+<tr><td><strong>Supportability</strong></td><td>Платформа пропонує чудову підтримку користувачів через базу знань, навчальні матеріали, документацію та службу підтримки. Наявна велика кількість навчальних відео та статей для вирішення питань. Wufoo також підтримує інтеграції з багатьма іншими сервісами для розширення функціональності.</td></tr>
+</tbody></table>
+</div>
+<h2 id="Висновки"><a class="header" href="#Висновки">Висновки</a></h2>
+<h3 id="1-Ефективність-збору-даних"><a class="header" href="#1-Ефективність-збору-даних">1. Ефективність збору даних</a></h3>
+<ul>
+<li>
+<p><strong>Переваги</strong>:</p>
+<ul>
+<li>Адміністратори можуть швидко створювати опитування та поширювати їх серед аудиторії.</li>
+<li>Значно знижуються витрати часу та ресурсів для організації досліджень.</li>
+</ul>
+</li>
+<li>
+<p><strong>Недоліки</strong>:</p>
+<ul>
+<li>Початкова розробка може вимагати значних інвестицій у час та ресурси для налаштування інтерфейсу та функціоналу.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="2-Ідентифікація-респондентів"><a class="header" href="#2-Ідентифікація-респондентів">2. Ідентифікація респондентів</a></h3>
+<ul>
+<li>
+<p><strong>Переваги</strong>:</p>
+<ul>
+<li>Можливість збереження даних про респондентів для проведення точного аналізу.</li>
+<li>Створення персоналізованих кампаній та відстеження унікальних відповідей.</li>
+</ul>
+</li>
+<li>
+<p><strong>Недоліки</strong>:</p>
+<ul>
+<li>Підвищений ризик, пов'язаний з конфіденційністю та безпекою даних.</li>
+<li>Необхідність дотримання стандартів захисту інформації.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="3-Інтеграція-з-іншими-сервісами"><a class="header" href="#3-Інтеграція-з-іншими-сервісами">3. Інтеграція з іншими сервісами</a></h3>
+<ul>
+<li>
+<p><strong>Переваги</strong>:</p>
+<ul>
+<li>Інтеграція з CRM-системами, аналітичними та маркетинговими платформами підвищує ефективність збору та обробки даних.</li>
+</ul>
+</li>
+<li>
+<p><strong>Недоліки</strong>:</p>
+<ul>
+<li>Інтеграція з різними сервісами може ускладнити підтримку.</li>
+<li>Зростання витрат на оновлення програми в майбутньому.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="4-Інтеграція-з-системами-третьої-сторони"><a class="header" href="#4-Інтеграція-з-системами-третьої-сторони">4. Інтеграція з системами третьої сторони</a></h3>
+<ul>
+<li>
+<p><strong>Переваги</strong>:</p>
+<ul>
+<li>Додаткові можливості для бізнесу через інтеграцію з системами статистики або платіжними процесорами.</li>
+<li>Покращення аналітичних здібностей програми.</li>
+</ul>
+</li>
+<li>
+<p><strong>Недоліки</strong>:</p>
+<ul>
+<li>Необхідність контролю за сумісністю з системами третьої сторони.</li>
+<li>Можливий вплив на безпеку та продуктивність платформи.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="Висновок"><a class="header" href="#Висновок">Висновок</a></h2>
+<p>Створення програми для опитувань є доцільним рішенням, проте важливо заздалегідь оцінити переваги та ризики для забезпечення її ефективної реалізації та використання.</p>
+<h2 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h2>
+<p><strong>FURPS</strong> — модель для оцінки програмних систем, яка охоплює п'ять основних аспектів: Functionality, Usability, Reliability, Performance, Supportability.<br />
+Джерело: <a href="https://en.wikipedia.org/wiki/FURPS">FURPS Model</a></p>
+<p><strong>PayPal</strong> — міжнародна електронна платіжна система, яка надає послуги для транскордонних платежів.<br />
+Джерело: <a href="https://www.paypal.com/us/webapps/mpp/about">PayPal Overview</a></p>
+<p><strong>Google Sheets</strong> — безкоштовний вебдодаток для роботи з електронними таблицями, що входить до складу Google Диск.<br />
+Джерело: <a href="https://support.google.com/docs/?hl=uk#topic=1382883">Google Sheets Help</a></p>
+<p><strong>Емпіричні дані</strong> — інформація, яка підтверджує істинність або хибність твердження, базуючись на досвіді чи експериментах.<br />
+Джерело: <a href="https://www.investopedia.com/terms/e/empirical-data.asp">Empirical Data Definition</a></p>
+<p><strong>MailChimp</strong> — сервіс електронного маркетингу для e-mail розсилок.<br />
+Джерело: <a href="https://mailchimp.com/">MailChimp Overview</a></p>
+<p><strong>Дельфійський оракул</strong> — відомий оракул у храмі Аполлона в Дельфах, один з найдавніших релігійних центрів Стародавньої Греції.<br />
+Джерело: <a href="https://en.wikipedia.org/wiki/Delphic_oracle">Delphic Oracle</a></p>
+<p><strong>JavaScript</strong> — динамічна мова програмування, що використовується для створення інтерактивних вебсторінок.<br />
+Джерело: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide">JavaScript Guide</a></p>
+<p><strong>CSS (Cascading Style Sheets)</strong> — мова стилів для опису зовнішнього вигляду вебсторінок.<br />
+Джерело: <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps">CSS Basics</a></p>
+<p><strong>HTML (HyperText Markup Language)</strong> — стандартизована мова розмітки документів для перегляду вебсторінок у браузері.<br />
+Джерело: <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML Introduction</a></p>
+<p><strong>CRM (Управління відносинами з клієнтами)</strong> — концепція для управління взаємовідносинами зі споживачами, включаючи збір і аналіз інформації про них.<br />
+Джерело: <a href="https://www.salesforce.com/crm/what-is-crm/">What is CRM?</a></p>
+<p><strong>SOC 2</strong> — стандарт для аудиту контрольних процедур в IT-організаціях, який забезпечує безпеку і управління ризиками.<br />
+Джерело: <a href="https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/sorhome.html">SOC 2 Guide</a></p>
+<p><strong>GDPR (General Data Protection Regulation)</strong> — регламент ЄС щодо захисту персональних даних.<br />
+Джерело: <a href="https://gdpr.eu/">GDPR Official Website</a></p>
+<p><strong>CAPTCHA</strong> — тест для визначення, чи взаємодіє з системою людина чи комп'ютер.<br />
+Джерело: <a href="https://en.wikipedia.org/wiki/CAPTCHA">What is CAPTCHA?</a></p>
+<p><strong>Salesforce</strong> — розробник CRM-системи, яка надається за моделлю SaaS.<br />
+Джерело: <a href="https://www.salesforce.com/">Salesforce Overview</a></p>
+<p><strong>HIPAA (Health Insurance Portability and Accountability Act)</strong> — акт про мобільність та підзвітність медичного страхування.<br />
+Джерело: <a href="https://www.hhs.gov/hipaa/index.html">HIPAA Overview</a></p>
+<p><strong>JotForm</strong> — онлайн-платформа для створення форм з широким набором функцій та інтеграцій.<br />
+Джерело: <a href="https://www.jotform.com/">JotForm Official Website</a></p>
+<p><strong>Ningaforms</strong> — інструмент для створення форм з підтримкою інтеграції з WordPress та можливістю збору платежів.<br />
+Джерело: <a href="https://www.ningaforms.com/">Ningaforms Official Website</a></p>
+<p><strong>123FormBuilder</strong> — платформа для створення форм з інтеграцією з PayPal, Salesforce та іншими сервісами.<br />
+Джерело: <a href="https://www.123formbuilder.com/">123FormBuilder Official Website</a></p>
+<p><strong>Paperform</strong> — сервіс для створення налаштовуваних форм з підтримкою HTML/CSS та інтеграцією з понад 3000 додатками.<br />
+Джерело: <a href="https://paperform.co/">Paperform Official Website</a></p>
+<p><strong>Google Forms</strong> — інструмент для створення онлайн-форм з автоматичним збиранням відповідей у Google Sheets.<br />
+Джерело: <a href="https://www.google.com/forms/about/">Google Forms Official Website</a></p>
+<p><strong>Wufoo</strong> — сервіс для створення онлайн-форм для опитувань, збору даних та платежів з інтеграцією з PayPal, Stripe та іншими.<br />
+Джерело: <a href="https://www.wufoo.com/">Wufoo Official Website</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Запити-зацікавлених-осіб"><a class="header" href="#Запити-зацікавлених-осіб">Запити зацікавлених осіб</a></h1>
+<h2 id="Вступ-2"><a class="header" href="#Вступ-2">Вступ</a></h2>
+<p>Документ "Запити зацікавлених осіб" є невід'ємною частиною курсової роботи проєкту "Froggy" і містить опис вимог, що висуваються до системи з боку різних зацікавлених осіб. Основною метою документа є формалізація вимог, що забезпечить коректну розробку та впровадження інформаційної системи. Розділи документа охоплюють мету, контекст, основні визначення, а також специфікації сценаріїв, що описують взаємодію користувачів із системою.</p>
+<h3 id="Мета"><a class="header" href="#Мета">Мета</a></h3>
+<p>Основною метою цієї сукупності вимог є створення та впровадження інформаційної системи "Froggy," яка дозволить адміністраторам створювати опитувальні форми, поширювати їх серед користувачів із доступом і зберігати інформацію про осіб, які пройшли опитування. Система також включає функції реєстрації користувачів і перегляду результатів опитувань.</p>
+<h3 id="Контекст"><a class="header" href="#Контекст">Контекст</a></h3>
+<p>Цей документ пов'язаний із загальним проєктом розробки інформаційної системи "Froggy" та детально описує вимоги до її функціональності. Він впливає на всі аспекти розробки, від початкового проектування до впровадження, і є основою для взаємодії між замовниками та розробниками. Основною метою системи є забезпечення зручного інструменту для створення й управління опитуваннями, а також збереження інформації про користувачів.</p>
+<h3 id="Основні-визначення-та-скорочення"><a class="header" href="#Основні-визначення-та-скорочення">Основні визначення та скорочення</a></h3>
+<p>Запити зацікавлених осіб — це вимоги, які висувають різні сторони проєкту: замовники, користувачі, адміністратори й розробники. Кожен із них має свої очікування щодо функцій системи Froggy.</p>
+<p>Froggy — це інформаційна система для створення опитувальних форм, збору та обробки даних.</p>
+<p>Інформаційна система забезпечує ефективну організацію збору, зберігання та обробки даних.</p>
+<p>Опитувальні форми дозволяють адміністраторам створювати опитування для збору інформації від користувачів.</p>
+<p>Користувачі реєструються в системі для участі в опитуваннях і надання відповідей.</p>
+<p>Реєстрація — процес створення облікового запису, необхідного для доступу до системи.</p>
+<p>Перегляд результатів опитувань дає можливість адміністраторам аналізувати зібрані дані.</p>
+<p>Замовники — організації або особи, що замовляють розробку системи, визначають її функціональні вимоги.</p>
+<p>Розробники відповідають за технічну реалізацію та забезпечення відповідності вимогам замовників.</p>
+<p>FURPS — це акронім, що представляє модель для класифікації атрибутів якості програмного забезпечення (функціональні та нефункціональні вимоги).</p>
+<h3 id="Посилання-1"><a class="header" href="#Посилання-1">Посилання</a></h3>
+<p><a href="">Запити зацікавлених осіб</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Information_system">Інформаційна система</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Questionnaire">Опитувальна форма</a></p>
+<p><a href="https://en.wikipedia.org/wiki/User_(telecommunications)">Користувач</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Account_creation">Реєстрація</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Client_(business)">Замовники</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Software_development#Workers">Розробники</a></p>
+<p><a href="https://en.wikipedia.org/wiki/FURPS">FURPS</a></p>
+<h2 id="Короткий-зміст"><a class="header" href="#Короткий-зміст">Короткий зміст</a></h2>
+<p><em>Froggy</em> — це інформаційна система, яка надає адміністраторам можливість створювати, поширювати та управляти опитуваннями, а також зберігати дані респондентів. Система призначена для легкого використання як адміністраторами, так і користувачами. Адміністратори можуть створювати форми з різними типами запитань, поширювати опитування за унікальними посиланнями та отримувати детальні результати з можливістю аналізу. Froggy забезпечує гнучкість і зручність для широкого кола користувачів, зберігаючи високі стандарти безпеки та продуктивності.</p>
+<h2 id="Характеристика-ділових-процесів"><a class="header" href="#Характеристика-ділових-процесів">Характеристика ділових процесів</a></h2>
+<h3 id="Додаткові-опції-для-підготовки-користувача-до-роботи-з-інтерфейсом-системи"><a class="header" href="#Додаткові-опції-для-підготовки-користувача-до-роботи-з-інтерфейсом-системи">Додаткові опції для підготовки користувача до роботи з інтерфейсом системи</a></h3>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>registerUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Реєстрація користувача</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User не має облікового запису <br> - User має доступ до інтерфейсу реєстрації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно зареєстрований у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неповні або некоректні дані <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач уже зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс реєстрації. <br> 2. Вводить необхідну інформацію (ім'я, прізвище, email, пароль). <br> 3. Підтверджує пароль. <br> 4. Приймає умови використання системи. <br> 5. Натискає кнопку реєстрації. <br> 6. Система надсилає підтвердження на email User. <br> 7. User підтверджує реєстрацію через email.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>loginUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Логін користувача - вхід у систему</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User знає свої облікові дані (email та пароль)</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно увійшов у систему</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильні облікові дані <br> ⚠️ Користувач забув пароль <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач не зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс входу в систему. <br> 2. Вводить email та пароль. <br> 3. Натискає кнопку "Увійти". <br> 4. Система перевіряє облікові дані. <br> 5. Якщо дані коректні, User отримує доступ до свого облікового запису.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editUserProfile</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування особистих даних</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User увійшов у свій акаунт <br> - User знаходиться на сторінці профілю</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Особисті дані користувача успішно оновлені</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильний формат облікових даних <br> ⚠️ Проблеми із сервером <br> ⚠️ Дані не змінені</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває сторінку профілю. <br> 2. Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів). <br> 3. Натискає кнопку збереження. <br> 4. Система перевіряє дані та зберігає зміни.</td></tr>
+</tbody></table>
+</div>
+<h3 id="Функціональні-опції-інтерфейсу-програми"><a class="header" href="#Функціональні-опції-інтерфейсу-програми">Функціональні опції інтерфейсу програми</a></h3>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>createForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Створення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- Admin має обліковий запис <br> - Admin має доступ до інтерфейсу для створення форм</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Нова форма створена та збережена у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Помилки збереження <br> ⚠️ Неповні дані <br> ⚠️ Проблеми із сервером</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin створює форми для User. <br> 2. Відкриває інтерфейс для створення нової форми. <br> 3. Вводить назву форми, опис. <br> 4. Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо). <br> 5. Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори). <br> 6. Зберігає форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування існуючої форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Створена форма, що потребує змін</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Зміни збережено, форма оновлена</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Конфлікти версій <br> ⚠️ Помилки під час збереження</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список своїх існуючих форм. <br> 2. Обирає форму для редагування. <br> 3. Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі). <br> 4. Зберігає оновлену форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>publishForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Публікація форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма створена та готова для публікації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма опублікована та доступна для користувачів</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Недоступність сервера <br> ⚠️ Відсутність доступу для публікації</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває форму для публікації. <br> 2. Обирає параметри публікації (посилання, вбудовування на вебсайті). <br> 3. Керує доступом (хто може заповнювати форму). <br> 4. Публікує форму.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>analizeForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Перегляд та аналіз результатів форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Дані форми зібрані та доступні для перегляду</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Admin переглядає та аналізує результати заповнених форм</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Дані недоступні через технічні проблеми</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває інтерфейс для перегляду результатів форм. <br> 2. Обирає форму, результати якої потрібно переглянути. <br> 3. Аналізує отримані дані (завантажує звіт, фільтрує результати). <br> 4. Може експортувати дані у форматі CSV або Excel.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>fillForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Заповнення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма опублікована та доступна за посиланням</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Дані форми зібрані та збережені в системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильне введення даних <br> ⚠️ Неповне заповнення <br> ⚠️ Технічні проблеми</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває посилання на форму. <br> 2. Заповнює поля форми згідно з інструкціями. <br> 3. Натискає на кнопку "Надіслати". <br> 4. Дані форми зберігаються в системі, і користувач отримує підтвердження.</td></tr>
+</tbody></table>
+</div><div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>deleteForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Видалення форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма більше не потрібна</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма та її дані видалені з системи</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Помилки доступу <br> ⚠️ Форма ще використовується іншими процесами</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список форм. <br> 2. Вибирає форму для видалення. <br> 3. Підтверджує видалення. <br> 4. Система видаляє форму та всі пов'язані дані. Система забезпечує перевірку на відсутність конфліктів з іншими процесами, які можуть використовувати дані цієї форми.</td></tr>
+</tbody></table>
+</div>
+<h2 id="Короткий-огляд-продукту"><a class="header" href="#Короткий-огляд-продукту">Короткий огляд продукту</a></h2>
+<p>Система дозволяє адміністраторам створювати опитування, поширювати їх за посиланнями серед респондентів та зберігати дані для подальшого аналізу. Респонденти можуть проходити опитування без реєстрації, що робить систему зручною для широкого використання.</p>
+<p><strong>Категорії користувачів:</strong></p>
+<p>Адміністратори: Створюють та керують опитуваннями, зберігають дані респондентів.</p>
+<p>Респонденти: Проходять опитування за наданими посиланнями без реєстрації.</p>
+<p><strong>FURPS:</strong></p>
+<ul>
+<li>
+<p>Functionality: Створення та поширення опитувань, збереження даних респондентів.</p>
+</li>
+<li>
+<p>Usability: Простий інтерфейс для створення та проходження опитувань.</p>
+</li>
+<li>
+<p>Reliability: Стабільна робота системи.</p>
+</li>
+<li>
+<p>Performance: Швидке завантаження форм.</p>
+</li>
+<li>
+<p>Supportability: Документація та підтримка.</p>
+</li>
+</ul>
+<p><strong>Functionality (Функціональність)</strong></p>
+<ul>
+<li>
+<p>Адмін: Створення опитувань, збереження даних про учасників, аналіз результатів.</p>
+</li>
+<li>
+<p>Користувачі: Реєстрація, доступ до опитувань, заповнення форм.</p>
+</li>
+<li>
+<p>Безпека: Аутентифікація, захист даних.</p>
+</li>
+</ul>
+<p><strong>Usability (Зручність використання)</strong></p>
+<ul>
+<li>Простий інтерфейс для адміністраторів і користувачів.</li>
+<li>Адаптивність для мобільних пристроїв.</li>
+<li>Підказки та підтримка під час користування.</li>
+</ul>
+<p><strong>Reliability (Надійність)</strong></p>
+<ul>
+<li>Стабільність системи, доступність без збоїв.</li>
+<li>Захист і резервне копіювання даних.</li>
+</ul>
+<p><strong>Performance (Продуктивність)</strong></p>
+<ul>
+<li>Швидка обробка запитів та даних.</li>
+<li>Оптимізація для великої кількості одночасних користувачів.</li>
+</ul>
+<p><strong>Supportability (Підтримка)</strong></p>
+<ul>
+<li>Легке оновлення та масштабування системи.</li>
+<li>Документація для адміністраторів, технічна підтримка.</li>
+</ul>
+<h2 id="Функціональність"><a class="header" href="#Функціональність">Функціональність</a></h2>
+<h3 id="Функціонал-для-адміністратора"><a class="header" href="#Функціонал-для-адміністратора">Функціонал для адміністратора:</a></h3>
+<ol>
+<li><strong>Створення облікового запису:</strong>
+<ul>
+<li>Адміністратор має можливість створити обліковий запис в системі, щоб отримати доступ до функцій адміністратора.</li>
+<li>Створення облікового запису включає введення персональних даних та створення особистого кабінету.</li>
+</ul>
+</li>
+<li><strong>Створення форм опитування:</strong>
+<ul>
+<li>Адміністратор має можливість створювати форми опитування через спеціально розроблений інтерфейс. Це включає вибір типу питань (одинарний вибір, множинний вибір, текстові відповіді тощо).</li>
+</ul>
+</li>
+<li><strong>Поширення посилань:</strong>
+<ul>
+<li>Після створення опитування, адміністратор може генерувати унікальне посилання на опитування.</li>
+<li>Адміністратор має можливість поширювати це посилання серед користувачів, які мають доступ до опитування, через електронну пошту або інші канали комунікації.</li>
+</ul>
+</li>
+<li><strong>Зберігання інформації про респондентів:</strong>
+<ul>
+<li>Адміністратор, який створив опитування, може зберігати інформацію про ідентифікацію осіб, що проходили опитування, включаючи імена, електронні адреси та інші ідентифікаційні дані.</li>
+<li>Зібрані дані повинні бути захищені відповідно до вимог конфіденційності та безпеки інформації.</li>
+</ul>
+</li>
+<li><strong>Доступ до результатів:</strong>
+<ul>
+<li>Адміністратор має доступ до результатів опитування, включаючи статистику відповідей та можливість аналізувати дані, що зібрані від респондентів.</li>
+</ul>
+</li>
+</ol>
+<h3 id="Функціонал-для-респондентів"><a class="header" href="#Функціонал-для-респондентів">Функціонал для респондентів:</a></h3>
+<ol>
+<li><strong>Заповнення опитувань:</strong>
+<ul>
+<li>Респонденти можуть заповнювати опитувальники, вибираючи відповіді з різних типів питань (одинарний вибір, множинний вибір, текстові відповіді тощо).</li>
+</ul>
+</li>
+<li><strong>Доступ до опитування через посилання:</strong>
+<ul>
+<li>Респонденти отримують унікальне посилання на опитування через електронну пошту або інші канали комунікації, що дозволяє легко брати участь у ньому.</li>
+</ul>
+</li>
+<li><strong>Конфіденційність:</strong>
+<ul>
+<li>Всі дані, надані респондентами, захищені згідно з політикою конфіденційності й не передаються третім особам без згоди.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Практичність"><a class="header" href="#Практичність">Практичність</a></h2>
+<ol>
+<li><strong>Інтуїтивно зрозумілий інтерфейс:</strong>
+<ul>
+<li>Інтерфейс має бути простим і зрозумілим для обох типів користувачів: адміністраторів та респондентів.</li>
+<li>Адміністратор повинен легко знаходити функції створення опитувань, перегляду та редагування результатів.</li>
+<li>Респонденти повинні без зусиль зрозуміти інструкції та варіанти відповідей.</li>
+</ul>
+</li>
+<li><strong>Швидкий доступ до функцій:</strong>
+<ul>
+<li>Основні дії повинні виконуватись за мінімальну кількість кліків, такі як створення опитування або доступ до результатів.</li>
+<li>Респонденти мають мати можливість швидко пройти опитування без зайвих дій, таких як обов'язкова реєстрація.</li>
+</ul>
+</li>
+<li><strong>Мобільна адаптивність:</strong>
+<ul>
+<li>Інтерфейс має бути адаптованим для всіх типів пристроїв, забезпечуючи зручне користування на комп'ютерах, планшетах та смартфонах.</li>
+<li>Важливо, щоб опитування було зручним для заповнення навіть на невеликих екранах.</li>
+</ul>
+</li>
+<li><strong>Підказки та повідомлення про помилки:</strong>
+<ul>
+<li>У випадку помилок система повинна відображати чіткі повідомлення, які допоможуть користувачеві виправити помилки (наприклад, незаповнені поля).</li>
+<li>Підказки мають бути зрозумілими та не перевантажувати інтерфейс.</li>
+</ul>
+</li>
+<li><strong>Легка навігація між сторінками:</strong>
+<ul>
+<li>Для великих опитувань слід передбачити можливість зберігати прогрес, щоб респонденти могли повернутися до заповнення пізніше.</li>
+<li>Кнопки "Назад" і "Далі" мають бути завжди доступними та добре помітними.</li>
+</ul>
+</li>
+<li><strong>Користувацька підтримка та документація:</strong>
+<ul>
+<li>Система повинна містити доступну документацію для адміністраторів, де описані всі функції.</li>
+<li>Додатково бажано надати онлайн-довідковий центр або інтегрований чат для підтримки користувачів у режимі реального часу.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Надійність"><a class="header" href="#Надійність">Надійність</a></h2>
+<ol>
+<li><strong>Стійкість до помилок:</strong>
+<ul>
+<li>Система повинна бути стійкою до помилок, забезпечуючи безперебійну роботу навіть у випадку несподіваних збоїв. У разі виникнення помилок або збою, користувачі не повинні втрачати свої дані.</li>
+<li>Всі дані опитувань повинні автоматично зберігатися в реальному часі, що дозволить уникнути втрати даних у випадку несподіваного завершення сесії.</li>
+</ul>
+</li>
+<li><strong>Висока доступність:</strong>
+<ul>
+<li>Система повинна бути доступною 24/7 без простоїв, щоб користувачі могли заповнювати опитування або працювати з ними в будь-який час.</li>
+<li>Необхідно реалізувати інфраструктуру з високою відмовостійкістю, яка дозволяє швидко відновлювати роботу системи у випадку апаратних або програмних збоїв.</li>
+<li>Система повинна бути здатною витримувати зростаюче навантаження при збільшенні кількості користувачів і обсягу даних. Масштабованість має бути передбачена на рівні інфраструктури, що дозволить обробляти більшу кількість запитів без втрати швидкості та надійності роботи.</li>
+</ul>
+</li>
+<li><strong>Автоматичне резервне копіювання:</strong>
+<ul>
+<li>Система повинна регулярно виконувати автоматичне резервне копіювання даних опитувань і користувачів. Це дозволить мінімізувати ризики втрати інформації через технічні збої або людські помилки.</li>
+<li>Резервні копії мають зберігатися в захищених місцях із можливістю швидкого відновлення даних у разі потреби.</li>
+</ul>
+</li>
+<li><strong>Безперервний моніторинг:</strong>
+<ul>
+<li>Система повинна постійно моніторитися на предмет можливих проблем або збоїв у роботі. Важливо, щоб адміністраторам або відповідальним особам надходили повідомлення про будь-які неполадки в режимі реального часу.</li>
+<li>Платформа повинна включати засоби діагностики та журналювання, які допоможуть оперативно виявляти й вирішувати технічні проблеми.</li>
+</ul>
+</li>
+<li><strong>Захист від втрати даних:</strong>
+<ul>
+<li>Всі дані, що вводяться користувачами (як адміністраторами, так і респондентами), повинні зберігатися без ризику втрати. Це включає запобігання втраті відповідей в опитуваннях або інформації про респондентів.</li>
+<li>Дані повинні бути захищені від несанкціонованого доступу або випадкового видалення.</li>
+</ul>
+</li>
+<li><strong>Сумісність з різними середовищами:</strong>
+<ul>
+<li>Система повинна бути сумісною з різними браузерами та операційними системами, щоб гарантувати стабільну роботу на різних пристроях.</li>
+<li>Забезпечення кросбраузерності та підтримка старих і нових версій популярних браузерів (Chrome, Firefox, Edge тощо).</li>
+</ul>
+</li>
+</ol>
+<h2 id="Продуктивність"><a class="header" href="#Продуктивність">Продуктивність</a></h2>
+<p>Система повинна швидко обробляти запити та дані, забезпечуючи оптимальну продуктивність під час роботи з великою кількістю користувачів.
+Оптимізація продуктивності важлива для забезпечення стабільної роботи при зростанні навантаження на систему.
+Форми опитування мають завантажуватись швидко, без затримок, що дозволяє респондентам ефективно взаємодіяти із системою.</p>
+<h2 id="Експлуатаційна-придатність"><a class="header" href="#Експлуатаційна-придатність">Експлуатаційна придатність</a></h2>
+<p>Система повинна бути легкою для оновлення та підтримувати масштабування, щоб адаптуватись до зростаючих потреб користувачів.
+Необхідно забезпечити документацію для адміністраторів та технічну підтримку для користувачів, щоб допомогти вирішувати потенційні проблеми.
+Система повинна бути стійкою до помилок і гарантувати збереження даних під час збоїв або інших критичних ситуацій.</p>
+<h2 id="Загальна-діаграма-прецендентів"><a class="header" href="#Загальна-діаграма-прецендентів">Загальна діаграма прецендентів</a></h2>
+<p><img src="https://github.com/user-attachments/assets/e803c8d0-6945-466b-a2e9-a4e63d7fc5cf" alt="image" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Розроблення-функціональних-вимог-до-системи"><a class="header" href="#Розроблення-функціональних-вимог-до-системи">Розроблення функціональних вимог до системи</a></h1>
+<h2 id="Діаграма-прецедентів"><a class="header" href="#Діаграма-прецедентів">Діаграма прецедентів</a></h2>
+<p><img src="https://www.plantuml.com/plantuml/png/ZP6zIiDG5CVtFCMXpXridQKYEEaYk0boRIunaDn0xWrISAYjuAY3LEWcla0C3QRQrbVutpVoDBUnT7F89UVZ_piVfwUDI4qMHvxecoIb5gPOsI4gUsz7Tem2kNriaT1qeMLAUr4Ot9ZhA9D_-S-OOM4dMDf9hHcoOhHcrAeZFmxLHZQGKPJSUbwcPLzeIQqrybm6eJOolLHuHSxgqhuupgRw21LXXGzySv4l_YjGOKxuH8wVTP-kk-Eh_LtmQHA4YgdlA5WuTvpYVwZE5dKc_L1GFr56AaDwmBt6J7rp6qA91NBYfyICeNcxvYxh2Bzst22xM-H9aiOK2oK26JEKQLEKpRnOikw9x4Dz1eRpLpMG0y-hpz3EseTkv1spip5zPtOzjtqEtx63Gus34nok9vNFn_y5" alt="" /></p>
+<h2 id="Діаграма-можливостей-користувача"><a class="header" href="#Діаграма-можливостей-користувача">Діаграма можливостей користувача</a></h2>
+<p><strong>Користувач</strong> може виконувати такі основні дії:</p>
+<ol>
+<li><strong>Реєстрація облікового запису</strong> – користувач створює новий акаунт для доступу до системи.</li>
+<li><strong>Вхід у систему</strong> – після реєстрації користувач може входити у свій акаунт, використовуючи облікові дані.</li>
+<li><strong>Взаємодія з медіа-контентом</strong> – після входу користувач отримує доступ до системи медіа-контенту та може переглядати, завантажувати або взаємодіяти з ним</li>
+</ol>
+<p><img src="https://www.plantuml.com/plantuml/png/ZT2nIiH040RWVfzYEEiKdhqSs6eZs0aIaoK6SXl8RWgxyomi1JbEiFK5OZ2OqpE-mZzlvEoU8kbibltPdM-6cLaNLwwU5qh5YIihck090o_Gymql-HOj6hwRK6pfpEgAzeeyktANHQsLggrEOgjfubzETPPRfwjpWqSq0dIy2iJY1rcY9mnumGUlyIwt5ZqsX3Sq-FBjTasEBlR7y76PvKRKPxHIkDavxV-ewHzrejCyfgGqJXj7zbfcdOlwu8juXQqehxpcUr58KkSJcYZmdzAq2-U0xQzze5JOI9H6Xs7iSPoEe_oUQPFwHNy3" alt="" /></p>
+<h2 id="Діаграма-можливостей-адміністратора"><a class="header" href="#Діаграма-можливостей-адміністратора">Діаграма можливостей адміністратора</a></h2>
+<p><strong>Адміністратор</strong> має можливість виконувати наступні дії:</p>
+<ol>
+<li><strong>Додавання форми</strong> – адміністратор може додавати нові форми для взаємодії користувачів з системою.</li>
+<li><strong>Редагування форми</strong> – адміністратор має можливість редагувати існуючі форми, змінюючи їхній вміст або параметри.</li>
+<li><strong>Видалення форми</strong> – адміністратор може видаляти форми, які більше не використовуються або стали застарілими.</li>
+</ol>
+<p><img src="https://www.plantuml.com/plantuml/png/XT8nJiCm50RWtQTuCdDx00PK169ZP6CnpLEfP3ieTWHieR2363emmGsYqagLQ3d3UpV2IL1SMQewH1dy_v_-M1avhmfV6Ys46lky04bljAGDpsdBStxY6LTKyun-kPAW79ncPchXI4ydj_uHjSxlXIWTZfL3a1TvOS0egoPeqFfhIn-quegVQK4rRGFv2lpIMBIXEZphrcngbtqhScS5Ae_DQP2-meX5MrsbKgV4zF-y6rrYnAxkieXz1cGP5dodqtR1hh4NF4UDFVXEwnRysRUkIwUOwAvpa0rEqblO-PnXEKoFuHWaFdYqcPEY7teusiyu71MZy6x-Z3y0" alt="" /></p>
+<h3 id="use-case-1-registeruser---реєстрація-користувача"><a class="header" href="#use-case-1-registeruser---реєстрація-користувача">Use case 1. registerUser - реєстрація користувача</a></h3>
+<p>Користувач заходить в систему вперше, але для того, щоб отримати доступ до інтерфейсу програми їм необхідно зареєструватись. <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває інтерфейс реєстрації</li>
+<li>Вводить необхідну інформацію (ім'я, прізвище, email, пароль)</li>
+<li>Підтверджує пароль за допомогою повторного вводу</li>
+<li>Натискає кнопку реєстрації</li>
+<li>Отримує лист про успішну реєстрацію на пошті та можливість увійти у свій акаунт</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLNXIXj14FxlKmpwssjp5ueM5S7s2KJeZu9Sucg3bqJkBhIs58oM-ATeAN92gLZh2roZgJ5gV8NPD-gtkzucrKkj4hAxyyqttyxCJkQZs0_ZHZKOYojn8CRexczcjLwBAQgy5xEUI-LwK0zdIu5VNfzRMbWkECG_k2CFP5DkoorEPKicSf-untrik_fuXzimx7Bw7vny81DE-KnnyJMdnBTOTcIBEtoEpmtu4cvh9b5R8QDLRwFrIct33_qg-UMu7Yx6cu4W_ws8wbM3CESqlXI9S9pyYDI29gQcIuMI60RmYL6EU92WeOkRKIogD54I9NTgsj1jGB2_9cXfuSLoWJxOspKYKVOZGUCp9PsZcIUbkTSrFaGIjWQvkalBjWxrsUW1MEiHqyyqsqS4oY5qCiglCa5MUZhJ829iRvHii7-2-4lP9DZkb-VG1bikvFEx6J-tuTtKt0YKWZqPEBiZdAsyOoKFpcsb2Fv69D_gHFJvQd1ja8tKOjKSQveEjsLYRmpkjcsD94_aA9dU7UiHFCx1sEGhw382x-d-hTX1kq_uIabK_KemYE3bynV_bOIyikmHB2cfle3BfO7j48JfFK5d3_yf02Zo87xHD8cf9paDPqwlwNcbLWuQAo8QcDr7pDPVx_8XxcCGRnYG3ocIiv91l260GcHFRTBOZHCUQdQ08tqMYdBirzO2f1nzskKU-cbFxkesGCwwUl3OXiz_dIzVsTTvn1qpjDItt7xOJGexYiHsgExhNtob9uT-ZnSGeokF-clhTSRcZcBBElFRmnbAMA0RYI-6XudcRIkjoCDbnk-PF3qi7MmeltWNOu16VsEA5k6DG7WMuLh4yAmAAsjlObgjrsCHMa_-0caf2fJeURThX1BVgXlY22Q7-3ltzKF6N1Wnzfq1un7_v5C-9MJfc5i4wxN3BOTFiD9rL5DLhVYC-zODwAuYcdIVkiNiHoHJEuyrVl_-0000" alt="UC_1. Реєстрація користувача - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>registerUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Реєстрація користувача</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User не має облікового запису <br> - User має доступ до інтерфейсу реєстрації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно зареєстрований у системі</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неповні або некоректні дані <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач уже зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс реєстрації. <br> 2. Вводить необхідну інформацію (ім'я, прізвище, email, пароль). <br> 3. Підтверджує пароль. <br> 4. Приймає умови використання системи. <br> 5. Натискає кнопку реєстрації. <br> 6. Система надсилає підтвердження на email User. <br> 7. User підтверджує реєстрацію через email.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/VLFBRjDG4DtVhnZAWartR00Zr9_W0mgaKAaFb9XT5d7C0wGeaL3bIaY0-8DRmsqT9xP_OUQFE3DsmGMhYyHNCtFEd7DylJU9zyVnc-CZvwPF9wFnr5aXSe-8Fql6lxYK6HUSivSpGg6IEGUPoLiEl9Q4q0ro9edCSVBoNZ8vRz70rC0Nw2mKkRqdgrtY1k2Chz0jv1E7NHeTxnyUQGFm6I0RMHZ1TrsFRRdk0z6bf93G7oFGU4AhHhNcBNu_kPQbBCaAET0rXgksGQ0oJP9s2zJP6ZZpbXe1P97-SMdGGfsn1qKbAvAaAmJC5aRo5U2vLW5G6ZmgqrDAIZjyphwV49Rarm1Px4H8dN_qEFtKX9dZ0FqP82kmcl80fm4wChNizH2vazDuHEF3bwzYkdlm_E3X_GVkyRCdT4U5XSu3dg1N750NcaE5cWLqW-qQ-UMlyqxl1qtdaWC2l-d7E03M7Dtev0Mf7jVbWg0JD3PjBis_hvD3boeUlhq5IE__tUmHzB0gRWRloC2TN1A8sbIlsbtHdniFycysMl0M-DkrDcgQC9Reb7n4DHrSQABrzR_hVmOf0PY3VaqeN_06nz9IH88MBpTg4kecyUdhoEqXLVqyVmC0" alt="UC_1. Реєстрація користувача - Діаграма активності" /></p>
+<h3 id="use-case-2-loginuser---логін-користувача"><a class="header" href="#use-case-2-loginuser---логін-користувача">Use case 2. loginUser - логін користувача</a></h3>
+<p>Користувач вже має свій обліковий запис, але для того, щоб увійти повторно після повного виходу з системи, мають ввести особисті дані для входу й пройти перевірку авторизації <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває інтерфейс входу в систему</li>
+<li>Вводить email та пароль</li>
+<li>Натискає кнопку "Увійти"</li>
+<li>Система перевіряє облікові дані - точніше наявність облікового запису по введеній пошті й відповідність паролю</li>
+<li>User отримує доступ до свого облікового запису</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZPNHIXjF5CRlVOf3l7R__-o6eaL5i7q24NfH2BjnjC5DLdOdjBOKagQDDwMK8WfjHQmli4Q3CTNu2cVUgD_CP9E0BaPGPlTyvpVVd7DsN4ka7yj6BPoJLHcAEHhzB6z7TKb9zRrOyLogH64KhmIXNzbTtLmlkmxnBnxofJhYE-813rMJ-wgbFgasTpbL1vpEGE93vAUWDF7tbbFYUonxgiCzliBl7NX7t3KaKTyYwz0y9hlL-fuV-pNoApAAD-H-ACX_AvAePXNsFHKs4n4No4z8BsX-SIae1c9Qm6VMEVUq1IFTs4-agD5y809tSSdYzc3Otn6qkVwYxDA7yUaQYQZuYQ32Sc0gi_nViFgwpkVSXVKROFl4NLAjoIQgRVr0RFo8fMU6zX4RFG9qYYFa3m2lU60ghR6wzfgeckepk3UgHTZq2zfoDRL5kVWurSset0MYPOX8lU2_uAAXsZzXlnIR74reRWvjxF8KDFHGfskdCtFpV7eZxWaoa6LuM0n7mtPl7WZ10O9jNP7fmtksfhOGv3ISLLltvzLw9MniYMGITfy8J-S_Bl6c1P1F95gJJTM2LTWqpEJe1HAiB1OLwTTtGjG0pUdp09NxfWvqkSmOcMEdgeFw7XTo1l7bgt9nNBUU-QfIzBaFr5SDUg8ZEZsFcytDCVGNggtxmJV4zx3K10iRP0Wt3-5beu8CuyDyUcQWht54Cq0OIXEzpMXU7gqqelryU0aHtt6F-5fx0-_Gn43LKOHWFAENREqVTXinD5AyaxX_adoDEuF6cq5JcjQChuIuklD6qdOKIH6FS_axZf3g9keUw079Ee4wu1L23l5l7fgh57t9kLsT2V64__0vdnDgUSeTGlJMuOx3PtPGW6rXVh3YInwEqw3kQz22-xzRokxgpEqQrlZdyWy0" alt="UC_2. Логін користувача - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>loginUser</td></tr>
+<tr><td><strong>Назва</strong></td><td>Логін користувача - вхід у систему</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User знає свої облікові дані (email та пароль)</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Користувач успішно увійшов у систему</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильні облікові дані <br> ⚠️ Користувач забув пароль <br> ⚠️ Проблеми із сервером <br> ⚠️ Користувач не зареєстрований</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває інтерфейс входу в систему. <br> 2. Вводить email та пароль. <br> 3. Натискає кнопку "Увійти". <br> 4. Система перевіряє облікові дані. <br> 5. Якщо дані коректні, User отримує доступ до свого облікового запису.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLBTIW916BsVfnZijhjkgetm9Ne0gxK4VqAtEo_KBReHWf0DWfBe1TRDnTLqVONlUwFEcPKYAGYHdJddctFEDz-KEq6b7LmtwiPqJpf-ksiSu9b3AmyQoLGMsfDC4ebrP06iT22fzlH6KfbhtqgYjvBBL4CihVObqpvBPAbXeI89UU037Lg_KQdLBGfYAsjezi1zwD1LFcC_u7bPE3TyLg3Nie1uITvW5S4J9IKFSUNrsqlYBXN6Z8Oz2X7ndXgvJ60GGIidR94aHXFHBlrpm9c5IsfbeY4uB1ByKYxfZYeene0ovYJacMOhy6sxTd4Ps9tgMVLWRzySdHwpWNIxNAE_8nI77h61DzkI-OzBAVWdoG6uJf6GSxZR99wvqbH7v7Y8B2Ze54V716dkhYZZ-6OSKGeSFJfsQVpckML7PZC3njCHK-ORqxNRR3M2_pj1f41evWkzhqS4fHUNAUCx-5KDEPp6FuKxGUlACsM4TO_r4m00" alt="UC_2. Логін користувача - Діаграма активності" /></p>
+<h3 id="use-case-3-edituserprofile---редагування-особистих-даних-користувача"><a class="header" href="#use-case-3-edituserprofile---редагування-особистих-даних-користувача">Use case 3. editUserProfile - редагування особистих даних користувача</a></h3>
+<p>Користувач вже має свій обліковий запис та увійшов у нього. Перейшовши на сторінку свого особистого кабінету, хоче змінити щось із введених параметрів під час реєстрації <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває сторінку профілю</li>
+<li>Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів) + можливо, встановлює аватар</li>
+<li>Натискає кнопку збереження</li>
+<li>Система перевіряє дані та зберігає зміни, якщо такі було внесено</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLJHJjjA47tdAqRX6T-BNLLG0KAY_GA4r8TAaMqM6k7OoDwefLKb0ZIyeBP2A4XL4QNyG0YrI249lp3xHvsTh6sQng9vi2UpPy_CdZFUvKIwiMpKWobPau6O0lDRs8X22KdjdLXqRF2Z88eNlS3rjvRMLggE1VWTK_o97RnM-zYbzm07wZFWK3LnY5VOKqsrHy-FmAY13l-174zKcqbtwTd73k0zXQbgSRMKQkmHeCjC8bo7KTFyDzcgXTjkxDR1zMKKhygTG83xHYHHtI0u3vMrHCGLS1FG0KpFpNkpddW8m0lJVgfROEZgJY957QOzuTbpyoEwRMhOtHImjlAywi3x_7IDHFXk8g2ouB5O2_zvIw_2SS6qEcDogROHIxMvgDxC_Odvfyp-WGfFA63DcXB7gaq4jwHOZ-arAPNOfVI0qlki9YKEA76dFkL5ghEJUMt3Uufzfc3MlCTIDhk4BU_p75FjAdPLE--LoJgaJ8_8ZZG_It84bEfcxeyDr8EIPKTmyYDScQBNet8tsPaA4eVbDOg0rR2ME8PdjT0F6kiYAPRjHvQB_GoU074OKC0B26FCmCsC49pYSUK4EyQvMFZI3JS3EZ4UatItsWbroFQeffQMfgsZMgJcQQLaHb-yh6R6d64wxWEzVu4wq6E4VJssm0DxH-BTKjITP8bcB2jbPpD0V4p4NraFYE-6McQJo6zUxMTiTXbRPkz9Df83J0jlKvtBE8oxVtj4QoI_U2lfGad-n3WvmduKuUI8XzzgNDjyBM4ZYgI8yvtuXPhhQ0tvZZmqAkEzLfbIj6G1ViCXJptPK78DMWNZ6Vx0Ixm4_8hdsD9gzYriMNZ1FcdQfZfYnwvnc6yZT4yJpTZ_sq_oIzLqkqnnenxy1W00" alt="UC_3. Редагування особистих даних - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editUserProfile</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування особистих даних</td></tr>
+<tr><td><strong>Учасники</strong></td><td>User, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>- User має обліковий запис <br> - User увійшов у свій акаунт <br> - User знаходиться на сторінці профілю</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Особисті дані користувача успішно оновлені</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Неправильний формат облікових даних <br> ⚠️ Проблеми із сервером <br> ⚠️ Дані не змінені</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. User відкриває сторінку профілю. <br> 2. Змінює необхідні дані (email або пароль, імʼя або прізвище, комбінації пунктів). <br> 3. Натискає кнопку збереження. <br> 4. Система перевіряє дані та зберігає зміни.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/FL9BhjD04DpFALfX0KXXnGOmGha41mZWGAHyK69sMUIJI215iOGYiuA86pZ9yujVdZE-GlUDNdNRiYnvPhfhQgfgfZEDkfFent3WtEpZD9pCd1K2zuxujoHynrUPSyudJcLFif0bUvcZSKDZHLoYwsMDmgFiRDSVBhGjE-21ojZpKJPAXM9265ARl0Y7tVwW3GfGWmG4spO1LpoNc00wiZT-b2uuFvTVdBsq8_vYnnA51LzD5eOR24gJr8A28sUWpFYii5O0R_nVyLXcN70wKvP33Jf9WaFYIgxNPICoSADn5DAa__LRHCzwdtjlNxznxpzzK0cPUKzLcKhd6yO7ahNcmuKg9BMENW9ztXniQcQTLZm7W0rbmd9IiuZPf9tixxceeFiwE2wLhRw87RwbR64jfbU48iZqRz4JN-moCDMTBXnz8JMaxkkGq3rRXWqq3vgd0DW_iEF-qLifgDHx1Bz9WvTxPGPtNBy40coXAFbP2V1Lfl3N09i4SD0q6d_7q84oUuFk2G00" alt="UC_3. Редагування особистих даних - Діаграма активності" /></p>
+<h3 id="use-case-4-createform---Створення-форми"><a class="header" href="#use-case-4-createform---Створення-форми">Use case 4. createForm - Створення форми</a></h3>
+<p>Адміністратор має можливість створити нову форму для користувачів. Він відкриває інтерфейс для створення форми та додає необхідні поля й налаштування.
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває інтерфейс для створення нової форми.</li>
+<li>Вводить назву форми, опис.</li>
+<li>Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо).</li>
+<li>Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори).</li>
+<li>Зберігає форму</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/ZLFDQjj04BxlKmpkjJ7KFvSIJ4ffU-cj57ee524lgQYb5EqA-aCXZjiqfnHAi4-b1Fe0YcpLIbpRhp3xHfrPPs45RPoBf9dvlczcPp_jAHsaEei7Ghs9ahT16iIW8psGZmyI_Ipw8A7L4JO1pn--wZG1pyqH5hWoXrZY4fVc6z1hPLCJC9zjvGzMBnCyCsFCSKfnJfaSSCqaSqp46PFD4G4A8O9G7wJGUD2FewG1WOA0lrmQpx4oGsfQieYjg_TAorY8JCamK98mjnpAiiDK1fhEbyQUm7SQPOPN1Aj8gW8AbzpJ71Axn4ip1AelIDWCRz-BTtRFxqAeqWfKJCfnZeKPUQIxG4fhFh2Zjppw6HLdc3jwIU65-M8dNven47758pfgswF-e6OBefxGqaTOE962qon0YMCpDgV0EdC-3akQ4txY9GChdB8uplvnnexNQO8NMDhbJ6qFXpOZX-vww5_NKZbtTSJVl5bAcP4Pudep1guiNMLXA9M2Eq-Z_TVwIIfb8WHl6PhDddUrS1zsTwCa76HzsUinehKLqTwAw6n5T6z6U0N6kTFKGSBw7tPsUjO_zR1L3zlri5CFksBpgt3i-rwaCjH1iZ_OcBB2AxhQK_FLseXsNh5BhYqnQS170U1RgSIrSmYmTVZ3tiwZ5pIkZ_r9EF89BgX3LRjYz_CuNglE8n2PctWby_btdFDWJ2xuoRgEsXR4hM_MJa9hbU-qJFgAwkvkRA__LjfUvPFOetSM3_u2" alt="UC_4. Створення форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Поле</th><th>Значення</th></tr></thead><tbody>
+<tr><td>ID</td><td>createForm</td></tr>
+<tr><td>Назва</td><td>Створення форми</td></tr>
+<tr><td>Учасники</td><td>Admin, система</td></tr>
+<tr><td>Передумови</td><td>- Admin має обліковий запис <br> - Admin має доступ до інтерфейсу для створення форм</td></tr>
+<tr><td>Результат</td><td>✅ Нова форма створена та збережена у системі</td></tr>
+<tr><td>Виключні ситуації</td><td>⚠️ Помилки збереження <br> ⚠️ Неповні дані <br> ⚠️ Проблеми із сервером</td></tr>
+<tr><td>Основний сценарій</td><td>1. Admin створює форми для User. <br> 2. Відкриває інтерфейс для створення нової форми. <br> 3. Вводить назву форми, опис. <br> 4. Додає необхідні поля (текстові поля, радіо-кнопки, прапорці тощо). <br> 5. Налаштовує валідацію полів і зовнішній вигляд форми (стилі, кольори). <br> 6. Зберігає форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="http://www.plantuml.com/plantuml/png/hLFDojfG4DtVfxZGJGjsAzYKOZU-HulI2bMBJNTP6Atz0QbG96xQYcyGqqHJVv9Nc7cZdiD5JA2BRo5yV8bppypvcTps1__LsFyuU6U2bzr1VnWO5dpFFBFoGoD9vQWJoIMHM5SMXOjE9TE9Vf9C_cfeWJZfqcg8UY85m9bSv88I7eMmjBP0y-GikHlCCXfpdUg2k5WEakYiWcjO84eWGi-OGBPy8pFEue0pDfAH2sqHr2mX3aCJ558Aq8Z2OhvuPZZoUtRSV_FMjuywdMQhsJBFNx-myXCKUpavTspFvGWpt_KB9S6IKE0CpZ-3PEcQVc5yIMCr4jCRTYrvA6rxZGAZLYw6gZcTqP9Bc_2L51pZe1b-x7JEv1q1kHZmOxgN8rFWlCfHms9gB2bwYgTmGBuIJsPOyaXA4jE4PRD-a-B9mrDr8n0Ek1RKX1QkpLd7XFcT4zwWwKmwUh1oa9qJ9VlhftLB-xx4O47wQCieW5_xWL2o9_nFORLDhvqs0FzmWPKLM_w5jtmrgY_zD-Xvhm1r8MFXG3gQz6OLH-IrW8L4wLVKi_-cKhjbkCQZzvvfGoqkzpy0" alt="UC_4. Створення форми - Діаграма активності" /></p>
+<h3 id="use-case-5-editform---Редагування-існуючої-форми"><a class="header" href="#use-case-5-editform---Редагування-існуючої-форми">Use case 5. editForm - Редагування існуючої форми</a></h3>
+<p>Адміністратор має створену форму, яка потребує змін. Обравши форму для редагування, адміністратор хоче внести зміни <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває список своїх існуючих форм.</li>
+<li>Обирає форму для редагування.</li>
+<li>Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі).</li>
+<li>Зберігає оновлену форму.</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/bPJDYXD14CVl_HJ5UdK39l4YIrWHruit4Jm8CaoQTJ2Po7G7_43ORDRrfY0o0Gz-l44sQzmnCSahLBsH_-uXxGoAYuSmtLNr_rLrLP5zOwFC3lizPPuawTCeY_fa4zlJ1uFKtajUQ6gsbJVG_LkFhZU8l_2Sl_6KpsNCCtnNl99t9BcCS1ZBMtd3QvcGdE1pn3-vU9Zo1ycT0lSfB5FY3OvpEVMeENJ729Wf5SLsaD7EpMu_INSeCXIvqzRCNxcGaHn30OZtc-V6whvIGwFZo6Z4_7TvdgExYJqOPFqAwBta02qGL21bGG1iN7vUywBEA-Hru7aQEdMjGlh4P-xbZXBYP4oWBrrfHt-hUCjfLYk2QouZp-4BC78O2iTPrz_ZbQsASi9dKBf4vwLw3UKQsPQ---DAMLjvkoOFkIu2wJj-W5ojQEjSdCeP3UDO6qDNxYQ7Z-sTJEjKATSYQZGweVDqW_RsaZJk3Rkwqt7-vYN-rYN-zh_ymOoOK64zHFdbeztTZXze_TgiNrlrQrkLY-dlORTKfcCRfOUzSfW5BtZf5sWbETRBxPcCiIUdsAx93hrKHBzdyD7rLawWo7bH3d7c9Y4Z67xuHjz-W2ghci_GO2CmZOMBtxYD9kIRokYFIOQb0wMfWAbroA7H7ltCwhHhu0tzTU4Lpokbzd5mVoY_0000" alt="UC_5. Редагування існуючої форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>editForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Редагування існуючої форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Створена форма, що потребує змін</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Зміни збережено, форма оновлена</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Конфлікти версій <br> ⚠️ Помилки під час збереження</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває список своїх існуючих форм. <br> 2. Обирає форму для редагування. <br> 3. Вносить необхідні зміни (додає/видаляє поля, змінює форматування або стилі). <br> 4. Зберігає оновлену форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/hLFDhj9G4DwVfpZ1ZIOcxaYmnc2Cl829UvIgJQ0rfRfY0Qq_BWmanjIDOdm3AFJI53YymimRtMzEBqrpaxkuoLr0XkattyzCwOwZVXXz70sLcZmRZ3n_ecp7KOyr_UIKjbJob0hAQCM_DC_eH0M-3PMQKnH7JdZEtz3yelap6O0FTdX9QpIdCbO_u4I3SCyBZLyvoXLjE15kEe9fuS05_HS1Zl7yGAk9KFqJEM1sd80Cy8BMmYpYj-2k4qeqD0tF81Np3qqxpATe5Ve-9Wq-iFr8bAGKLX4-aP7oOOtdUICSHkAce4Qn9gDjc0A3wGExcBy2b8oIIMXByGBo4X5Qz1j3kOsm4LZhnfrKe0nNc5RsCl3aeCsXdZOoESeF8bU7thltaRxNwxKxxOvwylgffZ_GlQ1zTTvgiIMCoZsFQ5pj9u7Dhv1PsA7dWVzswBs9NhdXs0jyvVe3BVmAhixceRkfiXcRBOD6VkrQT-lgPV-J-o8CWx3Xft7k9GRaBOQkFQIys1o3MfQuXLf-lja93QC1cmcAlyjEiSlwA3KKTnb7mGT7TQ4eVw1B" alt="UC_5. Редагування існуючої форми - Діаграма активності" /></p>
+<h3 id="use-case-6-publishform---Публікація-форми"><a class="header" href="#use-case-6-publishform---Публікація-форми">Use case 6. publishForm - Публікація форми</a></h3>
+<p>Адміністратор має створену повністю готову форму та хоче її опублікувати <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває форму для публікації.</li>
+<li>Обирає параметри публікації (посилання, вбудовування на вебсайті).</li>
+<li>Керує доступом (хто може заповнювати форму).</li>
+<li>Публікує форму.</li>
+</ul>
+<p><img src="https://www.plantuml.com/plantuml/png/XLDTQnD157sVNp7KvmRS11-aX8fONtmJmGT1ritGBkvkoiui-87G9jA-Y8981455y0TiOm9BsYH_uSu_yimDkyvQQ1wIpBttd3DpxptProRCJP4cGh-Ci-Cm3rDfOfEeWs5c7iTlb0nwGd16Fhd__4v7qayxfWkwj1DQK6dFxCH-alOzhUm9NL7rBAClA9Nq1t69J2bfZUFSdj6SPlWixGY0gH1XP8QvtBatIEDiHuPQXkvKf-aNLVRKZi202DVrQsrKAaIXLHHg1SpDRs7ISV4YYVNHmJ1FFU9dK6Qq0Ax25LL3icE9_2LaQ7rD-oiBOWotFQKVTE4wTIhWuB1fUsv7Jln6cS2J-GR62Q3JMcf6AzS-KcjQqLNDwVfN--8Drs-cPlKyrcykyc9MlW0Y2D0I1QYKxHSWsmm6I9uRr_ZISxVGpOgAA59QorkFuiCZyp1NAXF2JKnsEdr_5_AktDkBioWf1ghVTv1WEwIx7TBR0l4hG3OFRgC4Mr7kxlPvtUqmQ8VTTjWJ6vjox9jFv2eoONQOiF-eeWN6-T6Uqz9Ef3sbYiVPMEIjaFBVqhxJlBKFSFZy0Kpd79hoz-P_yk0fdWnss-t0Z-t8O_g2MttFge60x7yJvDimFlNAg6oW0QYtm0olyaxiuxT8axy0" alt="UC_6. Публікація форми - Діаграма прецедентів" /></p>
+<div class="table-wrapper"><table><thead><tr><th><strong>Поле</strong></th><th><strong>Значення</strong></th></tr></thead><tbody>
+<tr><td><strong>ID</strong></td><td>publishForm</td></tr>
+<tr><td><strong>Назва</strong></td><td>Публікація форми</td></tr>
+<tr><td><strong>Учасники</strong></td><td>Admin, система</td></tr>
+<tr><td><strong>Передумови</strong></td><td>Форма створена та готова для публікації</td></tr>
+<tr><td><strong>Результат</strong></td><td>✅ Форма опублікована та доступна для користувачів</td></tr>
+<tr><td><strong>Виключні ситуації</strong></td><td>⚠️ Недоступність сервера <br> ⚠️ Відсутність доступу для публікації</td></tr>
+<tr><td><strong>Основний сценарій</strong></td><td>1. Admin відкриває форму для публікації. <br> 2. Обирає параметри публікації (посилання, вбудовування на вебсайті). <br> 3. Керує доступом (хто може заповнювати форму). <br> 4. Публікує форму.</td></tr>
+</tbody></table>
+</div>
+<p><img src="https://www.plantuml.com/plantuml/png/hLFFYjDW4Bz_J_6nNbRmlB1MPFUoHn741qXtWnl8ffAaFVNGDcezI08YAOXQVOCsD1gJD7s5cJVoDr-CjL1ldhxCd_dzPdupkGX2om-7TwvIuykREySRA-FfgOUQtdDA6ofvGWLbjE8FcbzH0xFcI2DISQ9fnn6jgK9gYPGtdFB257-1jq0kof241vzKKyupmJjQfq-HsF0KT1MIjxJbv846zPeZq3MKuSswYCQpacYE-1JUdu1ExnloZ-2PS2JK6q54919iglKfl-OPDPfgcDyfr_G3jHBBW1eBFkB5NwEsa9zRFvZATgOI_0qAIuXnGilzE1nr82Szo4hVf0fc3ihLMB2MqXxiZ5EqcGXQsqr5XJXDm-_-eQqt26tjEozkGttlwkhi_EnSFUe_rlHfZs1qmKU9sfZdHYYHrSZG0YMcw9djZsp_kMUDBCUr-gwjREz62uD2duT37QpVIFAL6hDawPKNl3WK6-fm_ETCIgbiXVYjpnomsVyTvydWwR3lEi7jvVMr7GJxORhZDeVPNg1COKvJZXpRoSnEDd8ItNtju6WqqgQInM_XZOuj9SQQWt3migSkm2W_qoy0" alt="UC_6. Публікація форми - Діаграма активності" /></p>
+<h3 id="use-case-7-analizform---Аналіз-форми"><a class="header" href="#use-case-7-analizform---Аналіз-форми">Use case 7. analizForm - Аналіз форми</a></h3>
+<p>Адміністратор має створену форму та хоче проаналізувати результати опитування <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває інтерфейс для перегляду результатів форм.</li>
+<li>Обирає форму, результати якої потрібно переглянути.</li>
+<li>Аналізує отримані дані (завантажує звіт, фільтрує результати).</li>
+<li>Може експортувати дані у форматі CSV або Excel.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/TLFTQXD15BwVfpYaDmfwaJIKu8Mq-SaB1CKx6NQ74he_ihl1nYAOLF56K4HpgVW6szYOsBIRLpZpHdupEv5kIM-McUyxv_lEcNFsCCraaet2GAGdm-YLJ6H8qilYP92D0qNojKhZKDqbwKmGjQLtSfp4eyZln06mlNw_t-fsY0mN9xvA7Dvjj9iju4JWtWfHIXpvuJ1ovnh_ufMUw2al-9hp6icK1kCqKo7j7NMxhTu12J5AbITJHSywBsKaW_4RrO-J4A58_yaB_Gx9ltcjF_CbGIadplc6So0pNfAbb_eSrq-6rLF0SzBlkG1rpQlQRODwAViLCPTyXO0LSbQ4wmqEy4BUWl_g2O679V6cMe4-lyUnOjCeRNxm1OBpqi8L185xfIiQ-wN6bsslrdBkr22He-GPFU0bJe1D0_Z-SHq1dkkPdZw2CN9jgUZklyB3YbUpzFgE9vdmnXIAw1rkfdlNHzatTGRF2UG55zGxzLHG4udoCXaT1ygEhp0Zu3LVOVfd98YshhqNss5yS-9eT06dGa-i-QPq_EWUQKbsG1yC2j0cRC0Ky5w3DvCsgze-wDJjDhezU_pqpc89kw0xyCeLYML4dPxGCFA2aQzI8IpWcCPjnjuTiLybS7T4SoTXNWA4EirKvAVY45_pt_u3" alt="UC 7. Аналіз форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/bLBDJi904BxlKspYHHFF98Wn69KNC7elqYX9AGQgyS01Yee78yPWlPdu1b2fB3zjNs7sZVncfS64W_6syyrytynyEyMcPpMygveZH6k_KgkwBM4GiIFfHGSqffbkawAGXdeW0SJQfqYtzIr5DDKTYOgvxajA6GNsoI6DTLUQSAAx01wr3xuFUYZ1J91Q5BZ5Eur88MBnB07gVqMDrZF5D0GUS1vwKFFDx0l0iGwWkdniqWIla2FMe2zJ3p3KWVQtCGb4q83v9hNUbTIMQVeAVpgKykIeHksg2wRDLc86a8FZKudaY19vT7DcEmMOJXymeCEcSbcBDT-uXXkQ_NkPQi9bc24rmL_saYe8j-xPib4zl_3aHgcKo-VoOhUyXuybHJFmddIFFPFOGB4qHExXGDzK7LgUTU9QrrRLiSgEZRa6cOynHR_dCI2aef-HfBcGEqO16aAAJ8ATvcPB9Mot8dcurT7nBMJVPHPcJ_a_k14up8mXrb-AmLts7IqUW2kQhXsBP5DWz-egO7VJgr-A8jhpnNy3" alt="" /></p>
+<h3 id="use-case-8-fillform---Заповнення-форми"><a class="header" href="#use-case-8-fillform---Заповнення-форми">Use case 8. fillForm - Заповнення форми</a></h3>
+<p>Користувач вже має свій обліковий запис та увійшов у нього. Форма опублікована та доступна за посиланням, користувач бажає її заповнити. <br>
+Основні кроки:</p>
+<ul>
+<li>User відкриває посилання на форму.</li>
+<li>Заповнює поля форми згідно з інструкціями.</li>
+<li>Натискає кнопку "Надіслати".</li>
+<li>Дані форми зберігаються в системі, і користувач отримує підтвердження.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/XL9DRzD05BplhtWAXvuQYPG3GbLK2L4klLMLE21L9bcALTkfx3NYGqWqeUM2G49HUk80ly2O1AoQ97_XxJzYrbl7jWBXO7dtxSpixBot5oadLB7lYUZK3SwSqF59kSgJ-uD07Rgl97NkYA90H_UFxxQ9hpZX9IyuvJdFyCtr9zBlUA7Vyc_E7WSyrXD0Vc2Ve98GBx6SwKkWfuQXXm2aGZWzDGYfTHJ9i4LEH34MPP6_SgRFzH1uI1J7qSj8ILy8m7fE987PxAGWFNKzRtyG-YNBNaUSmiAKhu7CG4_qc8oIFiSsXwhLmYzP2UfH8JWuay616vp-tOR-UAF4-J-ykDBhHpNo5rm-D6_bQsF3tedr71fB61pHbi7mL4-0oIrwomOIF_5TrNmTZurxFQdTJVoBl_FCz81_uZEdd1BKLWdhYJK8gKFdkUpJhGFtv9bw64eP254-cThjxYfGkaUxksxGy-A-x7P5zRPDgChnVxLAJEMf2J9F3cbxkzleYArKPgfQBImxI1NIr4GeUye9JZoJuMVEq84SpNnlipHH3VK8uL-Y3LSjUYs8wZsS5JEUSCePU1_CF18sgHtvSfocfZUGkYZIVl3e-FQwJ3dEwDhwT9UyJeFt3SszC4Plx1PU5kXv3Xu6e6Jj2D0QuHeBo5M-K390MEkddOsdExNJDs8F_zZt_W00" alt="UC 8. Заповнення форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/hLDDRjD05DxFAPxAbdMbOeIwwWqu08W8aA15YTbvOSUKWbGH2LLbGq5mWi6r6ol6pXM-ToE-nvELoEiktCwClf_lVJCvNgJFvkdxjsz2zdGncsVX_puy4dpLQzJOQ8uM5Q9U2ROOjE2sGqIFNbV2Vr7q0mR2_cgP6F4ReY5H4V55dOQEu167Lh36hUcJFt0ZNFTQw59pBUdvKQzrPK0Jn0tTbsXflR4SRierkTWINSg1OL2JLQ1pz44IGePVHkEseLZCJEmd6isvhmZETQMMZmSHbGscb-XDXKakXKSLaJM_dZhdmcNqPH9EpzAPp5-_V9NAWvEJmwF3e_3u-HF1TmouG-UbYQaoQSSYBhmhzaVn4j67TD8DccaADFl-tlREVuzcJJjylIj-f8JPwGkngC5lvezDpx9lhKZNuxnxDtFFW_sctxbP4CM_tlN061qQivlcYvQGWsp9kz1IhnwAViQmIugrpq3K7JyU9M5ykbJuOKy8hRr5lrc-CLsYCWfgKiOgFOWGLXXAFrbdK_LfwxHQf6VlmZ5JyoVp3m00" alt="" /></p>
+<h3 id="use-case-9-deleteform---Видалення-форми"><a class="header" href="#use-case-9-deleteform---Видалення-форми">Use case 9. deleteForm - Видалення форми</a></h3>
+<p>Адміністатор відкриває список форм, обирає форму зі списку та видаляє її. <br>
+Основні кроки:</p>
+<ul>
+<li>Admin відкриває список форм.</li>
+<li>Вибирає форму для видалення.</li>
+<li>Підтверджує видалення.</li>
+<li>Система видаляє форму та всі пов'язані дані. Система забезпечує перевірку на відсутність конфліктів з іншими процесами, які можуть використовувати дані цієї форми.</li>
+</ul>
+<p><img src="http://www.plantuml.com/plantuml/png/XLDDYnD14BtthoZYUGDEFCaILlpmuaq43u8CasOTpCpAT0VyG329h1v4GPRnfWZ-W34cC2Jkv2zK_IDVzp1BRrZYQQQwtgjw_QhwoDYui9DihCppD7yH5t56DhLZVUyajm_JrvgY6yeVqAFRJ-_eiRP85LcV-2lNlEIADxpYSpwNBoJlkP5t_9Vh9pcVIOda7yGLJYhYBNvNSWhqqZ5a1i12gJYn9mNrResoDEzHR2XsVzqn_-HQfZ830qLythmoLcTAJOnEOgE1sQV4KqONkaEMb62j0QjHloQPyjOruuRN5mKy7JU_7X2_ysztAq_gS38d5DkWDIzsrNGreg363zTSPW2lG5-s4lPm1m7tLziIde9KaIC0MkwmfMpTcYI9DeQkFKYFdzdxXTQvKkv2rEyF0sFe9XqUfdaodepqSEWGqNyHW_s8805SfsG7fFouwU1Ww6s-74QNmu5gP-_YSAQgq8cDy-DnjmnhJEApVF2koDIPAtCCx5HA-TQZDueec0GtRazu0rRjp6nawl5RcNi7xpw6BAAh_FUEhttORcd32vdB6VYV46CFIsZu210wj2-WSIy0cYftrDMF51hisENQmYlzqkfyPAxCHq7-hJh2rptaVm00" alt="UC 9. Видалення форми - Діаграма прецедентів" /></p>
+<p><img src="http://www.plantuml.com/plantuml/png/hLFDIiD04BxlKonuyD9peLQaNleUIeiMR2irtd986sahY04fyI8MmGT8IrD3cfzNc7aZlzdOO4l1YvUmE_DzytqpEsdSMHS3wxvxevHztkfsUhOo4NMYwOLzMb7C3aMqf81dceUKKuHlHh7c1ygGI-e62ym2AKTmPOfTZGeRzZGAH3W6jA6GKahPCxIvIF08sP0TvDViWdu8h6pw46c0Gqeei0rTQBWlsMU7FPvLD4yeAlKfA6h5vbgmCw0XmYD-mjtJx4DW2b028kN0PJn6tI7q4QghNjzgwq7dwjhIHyrcjLQjgTFBCqrlABM6HGodr46lpt2G8e024KHS36GCUrv1-YoDyIE5VxfJxLvBYm6r7R8P2tkxGmPH783XemKfSimUVG6QIcHL7FwvbJb8611eCJ0GoQ0lg9pTNT-lq5zG24Cv1ZkH1YlIV_RxeQI7qkhU2i1xkPzIy1qwifL9iIxv_XPjr-RdFJLWGq7n5F7mu7vXxVktIZLWtFmDtm00" alt="" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Проєктування-бази-даних"><a class="header" href="#Проєктування-бази-даних">Проєктування бази даних</a></h1>
+<p>В рамках проекту розробляється:</p>
+<h2 id="Модель-бізнес-обєктів"><a class="header" href="#Модель-бізнес-обєктів">Модель бізнес-об'єктів</a></h2>
+<p><img src="https://www.plantuml.com/plantuml/png/ZPKzRzim48Rt-nM2lGLHKN_0WRS40Gfq21eaxLHqaCLJp4AYN99gcdzVqJ8Fv-ivQARuVLwH3obHkWsnyd7eMcYnYKNi2szVzh4mrcCTRUy0q4KRtufl0NqnRngpN1kUVR0cnRZPRizYLtMeWZ3uYmoxohOgELGXlFRUw11zPqCOTGDno7AbAQ-EDI0lbf6IYCb6XYGYS-PGPf8jxqndNJ6lDclJD6VXSVlCThUIUH9I2TcgS7BM49dhbFbJ0KWnBNOg0jCJAQa9G5eo9YM5yEqabfKVYHRpjRdPZgwIJ3kxMzKR3Kx-bx71K7jxI2U0Md0sTh9YLu0SMyToRD7A9fzwtwMLDUCVpqvhaZ6jHW8-byhhtaLqaHYab6vu-W4qWSpOs0BHi6LE-QHF68OsXdGSccPj57Gw54spMscq6V___6wZSk4LVQ0AC4YhOnaemwiTEK4fEbdcFkzhkeStMn7JRQmtaiIt0n83waywkGLdxPA1FDoN0xgxe-EaO9R_4hB0Me4H_qJ2mC3qwBCgYAi49gTdwrvQlD_tjiPabRmqTl9AKwluT-LjvI9rWDEinpDGBvSjydmOscYpPdf2pKeWiamF5zQ2yba2TO0eIV8BGBrObkYhTsZxog1vG6EhIN9jL4YQkvNEGp_u6ga3vvI-dpm5TOHIrdJRvzDykA33hrScysNoUgyr-9Pge0yZr0Z1fV4kzOzV-cAsk5xCnaun-tXzDMElx-dJTPbFhw5JdFXO4oyOGSLvJt11a1qnbVE7Ms_GeoNtOgHKqZOY3UUmZb_xHz__n3e-uQy1GopAxtjh3BeVvN5b_zDBUmgtwCpGjNy1" alt="" /></p>
+<h2 id="er-модель"><a class="header" href="#er-модель">ER-модель</a></h2>
+<p><img src="https://www.plantuml.com/plantuml/png/nLDFwzD04BtdKmmvgT2YDmbIMahLY4sbIS5RM9BHBkoViBEnYlZTtMvIisbQgbv-lMHUzhtNcNsJ9LbcR2j5L0b610T20pyZSByqAu3NlioBVPgz0yKaXfXQS_qA9UF2lrY_N-sVlNuEZRCzQTCPVKppuiqdD98JSQqMqFofAVeLzKsiQidLatSn4FwwbHgfChonJZFulDL6_e_3qEfQAulABg3gYh7t7gaLbYP_uSilZf1sy4E-ou0fEg49fkozf-fDTjY2_T7WmDqrg5RUO4elDfyBiFWzQ2xdwgl0zL7p2kzUm3TcE0j7shfX-5GKpD1BWY4EZT2indgBDMSJrVWurwrnrkGVeSMKSw_dreYpq7yhyQiOPZE8NyxdB-9mPn8uCYh3pV9h_Iy2lpbZVXXu9p0UtIHViatyuZ2kgBniK7yK2bmL19o0Tg1a7ZsGZO9EW3miAuyVICEq4v1dT2qSXzl9_UDMPDsTzE4kKTMj5By1" alt="" /></p>
+<h2 id="Реляційна-схема"><a class="header" href="#Реляційна-схема">Реляційна схема</a></h2>
+<p><img src="https://github.com/user-attachments/assets/3e20d297-be03-4e11-b3c5-78a065302571" alt="image" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Реалізація-інформаційного-та-програмного-забезпечення"><a class="header" href="#Реалізація-інформаційного-та-програмного-забезпечення">Реалізація інформаційного та програмного забезпечення</a></h1>
+<p>В рамках проекту розробляється:</p>
+<pre><code class="language-sql">
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema databaseLab5
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `databaseLab5` ;
+
+-- -----------------------------------------------------
+-- Schema databaseLab5
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `databaseLab5` DEFAULT CHARACTER SET utf8 ;
+USE `databaseLab5` ;
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`User`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`User` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`User` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `surname` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `password` CHAR(8) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`Admin`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`Admin` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`Admin` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `surname` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `password` CHAR(8) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`Permission`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`Permission` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`Permission` (
+  `name` VARCHAR(45) NULL,
+  `description` VARCHAR(255) NULL,
+  `id` INT NOT NULL,
+  `User_id` INT NOT NULL,
+  `Admin_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `User_id`, `Admin_id`),
+  INDEX `fk_Permission_User_idx` (`User_id` ASC) VISIBLE,
+  INDEX `fk_Permission_Admin1_idx` (`Admin_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Permission_User`
+    FOREIGN KEY (`User_id`)
+    REFERENCES `databaseLab5`.`User` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Permission_Admin1`
+    FOREIGN KEY (`Admin_id`)
+    REFERENCES `databaseLab5`.`Admin` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`UploadedMedia`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`UploadedMedia` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`UploadedMedia` (
+  `id` INT NOT NULL,
+  `source` INT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`UploadedMediaSource`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`UploadedMediaSource` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`UploadedMediaSource` (
+  `id` INT NOT NULL,
+  `url` VARCHAR(255) NULL,
+  `UploadedMedia_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `UploadedMedia_id`),
+  INDEX `fk_UploadedMediaSource_UploadedMedia1_idx` (`UploadedMedia_id` ASC) VISIBLE,
+  CONSTRAINT `fk_UploadedMediaSource_UploadedMedia1`
+    FOREIGN KEY (`UploadedMedia_id`)
+    REFERENCES `databaseLab5`.`UploadedMedia` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`Form`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`Form` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`Form` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `description` VARCHAR(45) NULL,
+  `content` JSON NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`FormResult`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`FormResult` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`FormResult` (
+  `id` INT NOT NULL,
+  `formid` INT NULL,
+  `answer` JSON NULL,
+  `Form_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Form_id`),
+  INDEX `fk_FormResult_Form1_idx` (`Form_id` ASC) VISIBLE,
+  CONSTRAINT `fk_FormResult_Form1`
+    FOREIGN KEY (`Form_id`)
+    REFERENCES `databaseLab5`.`Form` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`Content`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`Content` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`Content` (
+  `id` INT NOT NULL,
+  `type` ENUM("answer") NULL,
+  `Form_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Form_id`),
+  INDEX `fk_Content_Form1_idx` (`Form_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Content_Form1`
+    FOREIGN KEY (`Form_id`)
+    REFERENCES `databaseLab5`.`Form` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`OpenAnswer`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`OpenAnswer` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`OpenAnswer` (
+  `id` INT NOT NULL,
+  `text` TEXT NULL,
+  `Content_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Content_id`),
+  INDEX `fk_OpenAnswer_Content1_idx` (`Content_id` ASC) VISIBLE,
+  CONSTRAINT `fk_OpenAnswer_Content1`
+    FOREIGN KEY (`Content_id`)
+    REFERENCES `databaseLab5`.`Content` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`SingleChoise`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`SingleChoise` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`SingleChoise` (
+  `id` INT NOT NULL,
+  `variant` VARCHAR(45) NULL,
+  `Content_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Content_id`),
+  INDEX `fk_SingleChoise_Content1_idx` (`Content_id` ASC) VISIBLE,
+  CONSTRAINT `fk_SingleChoise_Content1`
+    FOREIGN KEY (`Content_id`)
+    REFERENCES `databaseLab5`.`Content` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `databaseLab5`.`MultiChoise`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `databaseLab5`.`MultiChoise` ;
+
+CREATE TABLE IF NOT EXISTS `databaseLab5`.`MultiChoise` (
+  `id` INT NOT NULL,
+  `variants` JSON NULL,
+  `Content_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Content_id`),
+  INDEX `fk_MultiChoise_Content1_idx` (`Content_id` ASC) VISIBLE,
+  CONSTRAINT `fk_MultiChoise_Content1`
+    FOREIGN KEY (`Content_id`)
+    REFERENCES `databaseLab5`.`Content` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`User`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`User` (`id`, `name`, `surname`, `email`, `password`) VALUES (1, 'David', 'Krykota', 'a@gmail.com', 'a111');
+INSERT INTO `databaseLab5`.`User` (`id`, `name`, `surname`, `email`, `password`) VALUES (2, 'Tymur', 'Naboka', 'b@gmail.com', 'b222');
+INSERT INTO `databaseLab5`.`User` (`id`, `name`, `surname`, `email`, `password`) VALUES (3, 'Nika', 'Maslo', 'c@gmail.com', 'c333');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`Admin`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`Admin` (`id`, `name`, `surname`, `email`, `password`) VALUES (1, 'admin', 'adminovich', 'admin@gmail.com', 'admin111');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`Permission`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`Permission` (`name`, `description`, `id`, `User_id`, `Admin_id`) VALUES ('edit', 'allows to edit form', 1, 1, 1);
+INSERT INTO `databaseLab5`.`Permission` (`name`, `description`, `id`, `User_id`, `Admin_id`) VALUES ('answer', 'allows to chose an answer', 2, 1, 1);
+INSERT INTO `databaseLab5`.`Permission` (`name`, `description`, `id`, `User_id`, `Admin_id`) VALUES ('check_results', 'allows to check results', 3, 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`UploadedMedia`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`UploadedMedia` (`id`, `source`) VALUES (1, 123);
+INSERT INTO `databaseLab5`.`UploadedMedia` (`id`, `source`) VALUES (2, 456);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`UploadedMediaSource`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`UploadedMediaSource` (`id`, `url`, `UploadedMedia_id`) VALUES (1, 'media.com', 1);
+INSERT INTO `databaseLab5`.`UploadedMediaSource` (`id`, `url`, `UploadedMedia_id`) VALUES (2, 'othermedia.com', 2);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`Form`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`Form` (`id`, `name`, `description`, `content`) VALUES (1, 'wild animals of ukraine', 'choose the best choices for survival', '{\"1\": \"Deers\", \"2\": \"Bears\", \"3\": \"Birds\"}');
+INSERT INTO `databaseLab5`.`Form` (`id`, `name`, `description`, `content`) VALUES (2, 'emotions', 'which emotions you experience the most', '{\"1\": \"Emotion1\",\"2\":\"Emotion2\",\"3\":\"Emotion3\"}');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`FormResult`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`FormResult` (`id`, `formid`, `answer`, `Form_id`) VALUES (1, 1, '{\"1\":\"a\",\"2\":\"c\",\"3\":\"b\"}', 1);
+INSERT INTO `databaseLab5`.`FormResult` (`id`, `formid`, `answer`, `Form_id`) VALUES (2, 2, '{\"1\":\"d\",\"2\":\"a\",\"3\":\"c\",\"4\":\"a\"}', 2);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`Content`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`Content` (`id`, `type`, `Form_id`) VALUES (1, 'answer', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`OpenAnswer`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`OpenAnswer` (`id`, `text`, `Content_id`) VALUES (1, 'I love wild animals of Ukraine and wish to protect them', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`SingleChoise`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`SingleChoise` (`id`, `variant`, `Content_id`) VALUES (1, 'a', 1);
+INSERT INTO `databaseLab5`.`SingleChoise` (`id`, `variant`, `Content_id`) VALUES (2, 'sadness', 1);
+INSERT INTO `databaseLab5`.`SingleChoise` (`id`, `variant`, `Content_id`) VALUES (3, 'Deer', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `databaseLab5`.`MultiChoise`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `databaseLab5`;
+INSERT INTO `databaseLab5`.`MultiChoise` (`id`, `variants`, `Content_id`) VALUES (1, '{\"1\":\"a\",\"2\":\"b\",\"3\":\"c\"}', 1);
+INSERT INTO `databaseLab5`.`MultiChoise` (`id`, `variants`, `Content_id`) VALUES (2, '{\"1\":\"d\",\"2\":\"b\",\"3\":\"c\"}', 1);
+
+COMMIT;
+
+</code></pre>
+<h2 id="rest-api-для-управління-даними"><a class="header" href="#rest-api-для-управління-даними">REST API для управління даними</a></h2>
+<h3 id="Підключення-до-бази-даних-mysql"><a class="header" href="#Підключення-до-бази-даних-mysql">Підключення до бази даних MySql</a></h3>
+<h4 id="configconnectionsjs"><a class="header" href="#configconnectionsjs">config/connections.js</a></h4>
+<pre><code class="language-javascript">import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+export default pool;
+</code></pre>
+<h3 id="Налаштування-сервера"><a class="header" href="#Налаштування-сервера">Налаштування сервера</a></h3>
+<h4 id="appjs"><a class="header" href="#appjs">app.js</a></h4>
+<pre><code class="language-javascript">import express from "express";
+import dotenv from "dotenv";
+
+import multiChoiceRoutes from "./routes/multiChoiceRoutes.js";
+import singleChoiceRoutes from "./routes/singleChoiceRoutes.js";
+
+import errorHandlingMiddleware from "./middleware/errorMiddleware.js";
+
+dotenv.config();
+
+const app = express();
+
+app.use(express.json());
+
+app.use("/multichoice", multiChoiceRoutes);
+app.use("/singlechoice", singleChoiceRoutes);
+
+app.use(errorHandlingMiddleware);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () =&gt; {
+  console.log(`Server is running on port ${PORT}`);
+});
+</code></pre>
+<h3 id="Маршрутизація"><a class="header" href="#Маршрутизація">Маршрутизація</a></h3>
+<h4 id="routesmultichoiceroutesjs"><a class="header" href="#routesmultichoiceroutesjs">routes/multiChoiceRoutes.js</a></h4>
+<pre><code class="language-javascript">import express from "express";
+import {
+  getMultiChoices,
+  getMultiChoiceById,
+  createMultiChoice,
+  updateMultiChoice,
+  deleteMultiChoice,
+} from "../controllers/multiChoiceController.js";
+
+const router = express.Router();
+
+router.get("/", getMultiChoices);
+router.get("/:id", getMultiChoiceById);
+router.post("/", createMultiChoice);
+router.put("/:id", updateMultiChoice);
+router.delete("/:id", deleteMultiChoice);
+
+export default router;
+</code></pre>
+<h4 id="routessinglechoiceroutesjs"><a class="header" href="#routessinglechoiceroutesjs">routes/singleChoiceRoutes.js</a></h4>
+<pre><code class="language-javascript">import express from "express";
+import {
+  getSingleChoices,
+  getSingleChoiceById,
+  createSingleChoice,
+  updateSingleChoice,
+  deleteSingleChoice,
+} from "../controllers/singleChoiceController.js";
+
+const router = express.Router();
+
+router.get("/", getSingleChoices);
+router.get("/:id", getSingleChoiceById);
+router.post("/", createSingleChoice);
+router.put("/:id", updateSingleChoice);
+router.delete("/:id", deleteSingleChoice);
+
+export default router;
+</code></pre>
+<h3 id="Контролери"><a class="header" href="#Контролери">Контролери</a></h3>
+<h4 id="controllersmultichoicecontrollerjs"><a class="header" href="#controllersmultichoicecontrollerjs">controllers/multiChoiceController.js</a></h4>
+<pre><code class="language-javascript">import pool from "../config/connection.js";
+import QUERIES from "../queries/multiChoiceQueries.js";
+import sendResponse from "../utils/sendResponse.js";
+import errorFactory from "../utils/errorFactory.js";
+
+const { GET_ALL, GET_BY_ID, CREATE, UPDATE, DELETE } = QUERIES;
+
+export const getMultiChoices = async (req, res, next) =&gt; {
+  try {
+    const [results] = await pool.execute(GET_ALL);
+    sendResponse(res, 200, results);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const getMultiChoiceById = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  try {
+    const [results] = await pool.execute(GET_BY_ID, [id]);
+    if (results.length === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200, results[0]);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const createMultiChoice = async (req, res, next) =&gt; {
+  const { variants, content_id } = req.body;
+  if (!variants || !content_id) return next(errorFactory.missingFields());
+  try {
+    await pool.execute(CREATE, [JSON.stringify(variants), content_id]);
+    sendResponse(res, 201);
+  } catch (err) {
+    next(errorFactory.createError(err.message));
+  }
+};
+
+export const updateMultiChoice = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  const { variants, content_id } = req.body;
+  if (!variants || !content_id) return next(errorFactory.missingFields());
+  try {
+    const [result] = await pool.execute(UPDATE, [
+      JSON.stringify(variants),
+      content_id,
+      id,
+    ]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.updateError(err.message));
+  }
+};
+
+export const deleteMultiChoice = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.execute(DELETE, [id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.deleteError(err.message));
+  }
+};
+</code></pre>
+<h4 id="controllerssinglechoicecontrollerjs"><a class="header" href="#controllerssinglechoicecontrollerjs">controllers/singleChoiceController.js</a></h4>
+<pre><code class="language-javascript">import pool from "../config/connection.js";
+import QUERIES from "../queries/singleChoiceQueries.js";
+import sendResponse from "../utils/sendResponse.js";
+import errorFactory from "../utils/errorFactory.js";
+
+const { GET_ALL, GET_BY_ID, CREATE, UPDATE, DELETE } = QUERIES;
+
+export const getSingleChoices = async (req, res, next) =&gt; {
+  try {
+    const [results] = await pool.execute(GET_ALL);
+    sendResponse(res, 200, results);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const getSingleChoiceById = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  try {
+    const [results] = await pool.execute(GET_BY_ID, [id]);
+    if (results.length === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200, results[0]);
+  } catch (err) {
+    next(errorFactory.getError(err.message));
+  }
+};
+
+export const createSingleChoice = async (req, res, next) =&gt; {
+  const { variant, content_id } = req.body;
+  if (!variant || !content_id) return next(errorFactory.missingFields());
+  try {
+    await pool.execute(CREATE, [variant, content_id]);
+    sendResponse(res, 201);
+  } catch (err) {
+    next(errorFactory.createError(err.message));
+  }
+};
+
+export const updateSingleChoice = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  const { variant, content_id } = req.body;
+  if (!variant || !content_id) return next(errorFactory.missingFields());
+  try {
+    const [result] = await pool.execute(UPDATE, [variant, content_id, id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.updateError(err.message));
+  }
+};
+
+export const deleteSingleChoice = async (req, res, next) =&gt; {
+  const { id } = req.params;
+  try {
+    const [result] = await pool.execute(DELETE, [id]);
+    if (result.affectedRows === 0) return next(errorFactory.notFound());
+    sendResponse(res, 200);
+  } catch (err) {
+    next(errorFactory.deleteError(err.message));
+  }
+};
+</code></pre>
+<h3 id="sql-запити"><a class="header" href="#sql-запити">SQL-запити</a></h3>
+<h4 id="queriesmultichoicequeriesjs"><a class="header" href="#queriesmultichoicequeriesjs">queries/multiChoiceQueries.js</a></h4>
+<pre><code class="language-javascript">const QUERIES = {
+  GET_ALL: "SELECT * FROM MultiChoise",
+  GET_BY_ID: "SELECT * FROM MultiChoise WHERE id = ?",
+  CREATE: "INSERT INTO MultiChoise (variants, content_id) VALUES (?, ?)",
+  UPDATE: "UPDATE MultiChoise SET variants = ?, content_id = ? WHERE id = ?",
+  DELETE: "DELETE FROM MultiChoise WHERE id = ?",
+};
+
+export default QUERIES;
+</code></pre>
+<h4 id="queriessinglechoicequeriesjs"><a class="header" href="#queriessinglechoicequeriesjs">queries/singleChoiceQueries.js</a></h4>
+<pre><code class="language-javascript">const QUERIES = {
+  GET_ALL: "SELECT * FROM SingleChoise",
+  GET_BY_ID: "SELECT * FROM SingleChoise WHERE id = ?",
+  CREATE: "INSERT INTO SingleChoise (variant, content_id) VALUES (?, ?)",
+  UPDATE: "UPDATE SingleChoise SET variant = ?, content_id = ? WHERE id = ?",
+  DELETE: "DELETE FROM SingleChoise WHERE id = ?",
+};
+
+export default QUERIES;
+</code></pre>
+<h3 id="Відправка-відповіді"><a class="header" href="#Відправка-відповіді">Відправка відповіді</a></h3>
+<h4 id="utilssendresponsejs"><a class="header" href="#utilssendresponsejs">utils/sendResponse.js</a></h4>
+<pre><code class="language-javascript">const sendResponse = (res, statusCode, data = null) =&gt; {
+  const response = { message: "Success" };
+  if (data !== null) {
+    response.data = data;
+  }
+  res.status(statusCode).json(response);
+};
+
+export default sendResponse;
+</code></pre>
+<h3 id="Обробка-помилок"><a class="header" href="#Обробка-помилок">Обробка помилок</a></h3>
+<h4 id="middlewareerrormiddlewarejs"><a class="header" href="#middlewareerrormiddlewarejs">middleware/errorMiddleware.js</a></h4>
+<pre><code class="language-javascript">import HTTP_STATUS_CODES from "../utils/statusCodes.js";
+
+const errorHandlingMiddleware = (err, req, res, next) =&gt; {
+  const statusCode = err.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR;
+  res.status(statusCode).json({
+    error: err.message || "Internal Server Error",
+    details: err.details || null,
+  });
+};
+
+export default errorHandlingMiddleware;
+</code></pre>
+<h4 id="utilserrorfactoryjs"><a class="header" href="#utilserrorfactoryjs">utils/errorFactory.js</a></h4>
+<pre><code class="language-javascript">const formError = (message, statusCode, details = null) =&gt; {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  error.details = details;
+  return error;
+};
+
+const errorFactory = {
+  missingFields: () =&gt; formError("Missing fields", 400),
+  notFound: () =&gt; formError("Resource not found", 404),
+  createError: (details) =&gt; formError("Create error", 500, details),
+  getError: (details) =&gt; formError("Get error", 500, details),
+  updateError: (details) =&gt; formError("Update error", 500, details),
+  deleteError: (details) =&gt; formError("Delete error", 500, details),
+};
+
+export default errorFactory;
+</code></pre>
+<h3 id="Коди-статусів-http"><a class="header" href="#Коди-статусів-http">Коди статусів HTTP</a></h3>
+<h4 id="utilsstatuscodejs"><a class="header" href="#utilsstatuscodejs">utils/statusCode.js</a></h4>
+<pre><code class="language-javascript">const HTTP_STATUS_CODES = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+export default HTTP_STATUS_CODES;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Тестування-працездатності-системи"><a class="header" href="#Тестування-працездатності-системи">Тестування працездатності системи</a></h1>
+<p><em>В цьому розділі необхідно вказати засоби тестування, навести вихідні коди тестів та результати тестування.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Висновки-1"><a class="header" href="#Висновки-1">Висновки</a></h1>
+<p>У висновках наводять оцінку отриманих результатів, можливі галузі його використання. Висновки повинні містити в собі коротку узагальнену оцінку результатів розробки, у
+тому числі і з погляду на їх технічно-економічну ефективність. Необхідно порівняти
+отримані результати усіх характеристик об’єкта проєктування із завданням і з основними показниками сучасних аналогічних об’єктів.</p>
+<p>Необхідно вказати яке нове технічне рішення покладене в основу проєкту і у чому її
+переваги, що нового було запропоновано самим студентом.</p>
+<p>На базі отриманих висновків можуть надаватися рекомендації по використанню розробки. Вони повинні
+мати конкретний характер і бути цілком підтверджені проєктом.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
